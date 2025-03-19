@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,7 +105,7 @@
         
         /* Animation for clicking the container */
         .question-container.clickable:active {
-            transform: scale(0.99);
+            transform: none; /* Removed scale effect that caused jiggle */
             box-shadow: var(--shadow-sm);
         }
         
@@ -116,7 +116,7 @@
         }
         
         .question-container.clicked {
-            animation: pulseClick 0.3s ease;
+            animation: none; /* Removed animation that caused jiggle */
         }
         
         [data-theme="dark"] .question-container.clickable:hover {
@@ -134,14 +134,14 @@
             margin-bottom: 8px;
             position: relative;
             cursor: pointer;
-            padding-right: 25px;
+            padding-right: 40px; /* Increased from 25px to prevent overlap with progress marker */
             transition: var(--transition);
         }
         
         .question::after {
             content: "+";
             position: absolute;
-            right: 0;
+            right: 12px; /* Adjusted from 0 to prevent overlap with progress marker */
             top: 0;
             color: var(--primary-color);
             font-weight: bold;
@@ -177,8 +177,10 @@
             margin: 1.5rem 1.5rem 2rem;
             padding-top: 1rem;
             scroll-margin-top: 20px;
+            position: relative; /* For collapse button positioning */
         }
         
+        /* Add these CSS rules to standardize the section-title styling */
         .section-title {
             color: var(--primary-color);
             margin-bottom: 1.2rem;
@@ -186,6 +188,45 @@
             font-weight: 600;
             border-bottom: 1px solid var(--medium-gray);
             padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer; /* Make the entire title clickable */
+            transition: var(--transition);
+            position: relative;
+            padding-right: 40px; /* Space for the collapse button */
+        }
+        
+        .section-title:hover {
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        /* Position the collapse button consistently */
+        .section-collapse-btn {
+            position: absolute;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            pointer-events: none; /* Let clicks pass through to the section-title */
+        }
+        
+        /* Dark mode hover state for section titles */
+        [data-theme="dark"] .section-title:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .section.collapsed .section-content {
+            display: none;
         }
         
         #table-of-contents {
@@ -268,7 +309,7 @@
         
         .btn {
             background-color: var(--primary-color);
-            color: white;
+            color: rgb(0, 0, 0);
             border: none;
             padding: 10px 16px;
             border-radius: var(--border-radius);
@@ -304,6 +345,194 @@
             width: 100%;
             margin-top: 0.8rem;
             font-size: 0.85rem;
+        }
+        
+        /* Search box styles */
+        .search-container {
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            z-index: 5;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--medium-gray);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        #search-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
+        }
+        
+        #search-results {
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        #search-results.active {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: 8px 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-result-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .search-result-section {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        .search-result-text {
+            font-size: 0.85rem;
+        }
+        
+        /* Progress tracking */
+        .question-container {
+            position: relative;
+        }
+        
+        .progress-marker {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .progress-marker.completed {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .section-progress {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-left: 10px;
+        }
+        
+        .progress-bar {
+            width: 50px;
+            height: 4px;
+            background-color: var(--medium-gray);
+            border-radius: 2px;
+            margin-right: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Floating action menu */
+        .floating-menu {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .floating-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .floating-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Quick navigation dots */
+        .quick-nav {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 800;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .nav-dot:hover, .nav-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            right: 20px;
+            background-color: var(--bg-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+        
+        .nav-dot:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* Mobile styles */
@@ -418,59 +647,32 @@
                 transition: var(--transition);
             }
             
-            /* Add a semi-transparent overlay when sidebar is open */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0,0,0,0.5);
-                z-index: 1005;
-                opacity: 0;
-                visibility: hidden;
-                transition: var(--transition);
+            /* Indicator for active section in sidebar */
+            #sidebar a.current {
+                border-left: 3px solid var(--primary-color);
+                background-color: rgba(74, 142, 255, 0.1);
             }
             
-            #sidebar.active ~ body::before {
-                opacity: 1;
-                visibility: visible;
+            /* Improve touch targets on mobile */
+            #sidebar a {
+                padding: 12px 15px;
+                margin-bottom: 8px;
             }
             
-            .question-container {
-                padding: 14px;
-                margin-bottom: 12px;
+            /* Mobile floating menu adjustments */
+            .floating-menu {
+                bottom: 20px;
+                right: 20px;
             }
             
-            .question {
-                font-size: 0.95rem;
-                line-height: 1.4;
-                padding-right: 30px;
+            .floating-menu .floating-btn {
+                width: 45px;
+                height: 45px;
             }
             
-            .question::after {
-                right: 5px;
-            }
-            
-            .answer {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                gap: 10px;
-                margin: 0 0.5rem 1rem;
-            }
-            
-            .btn {
-                width: 100%;
-                padding: 12px 16px;
-            }
-            
-            .section {
-                margin: 1rem 0.5rem;
+            /* Hide quick nav on mobile */
+            .quick-nav {
+                display: none;
             }
             
             /* Add back to top floating button */
@@ -563,21 +765,39 @@
                 background: var(--primary-dark);
             }
             
+            /* Improved dark mode button contrast */
+            [data-theme="dark"] .theme-toggle {
+                background: #ffb700 !important; /* High contrast yellow/gold for dark mode */
+                color: #000 !important; /* Black icon for contrast */
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.3) !important; /* Light glow effect */
+                border: 2px solid #000 !important; /* Black border for contrast */
+            }
+            
+            [data-theme="dark"] .theme-toggle:hover {
+                background: #ffc730 !important; /* Lighter on hover */
+            }
+            
+            .theme-toggle svg {
+                stroke-width: 2.5px !important; /* Make the icon lines thicker for better visibility */
+            }
+            
+            /* Style for other buttons in dark mode */
+            [data-theme="dark"] .btn {
+                color: white !important;
+                background-color: #4a8eff !important;
+                border: 1px solid white !important;
+            }
+            
+            [data-theme="dark"] .btn-secondary {
+                background-color: #555 !important;
+            }
+            
+            [data-theme="dark"] .btn:hover {
+                background-color: #306ad9 !important;
+            }
+            
             .theme-toggle i {
                 font-size: 1.2rem;
-            }
-            
-            /* Improve touch targets */
-            #sidebar a {
-                padding: 10px 12px;
-                margin-bottom: 5px;
-            }
-            
-            .btn, 
-            .question,
-            #sidebar-toggle-all-answers,
-            #sidebar-back-to-top {
-                min-height: 44px; /* Minimum touch target size */
             }
             
             /* Move static bottom controls to floating buttons */
@@ -602,96 +822,21 @@
                 font-size: 0.85rem;
             }
             
-            /* Collapsible section styles for mobile */
-            .section-title.collapsible-header {
-                padding: 12px 30px 12px 12px;
-                margin-bottom: 0.5rem;
-                background-color: var(--primary-color);
-                color: white;
-                border-radius: var(--border-radius);
-                border-bottom: none;
-                box-shadow: var(--shadow-sm);
-                position: relative;
+            /* Search box adjustments for mobile */
+            .search-container {
+                padding: 10px;
             }
             
-            .section-title.collapsible-header:hover {
-                background-color: var(--primary-dark);
+            #search-input {
+                padding: 12px 15px;
+                font-size: 16px; /* Prevent zoom on mobile */
             }
             
-            .section-toggle {
-                right: 12px;
-                top: 12px;
-                color: white;
+            /* Progress tracking on mobile */
+            .progress-marker {
+                width: 24px;
+                height: 24px;
             }
-            
-            .section-content {
-                padding: 0 8px;
-                transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.3s ease;
-            }
-            
-            .section-content.collapsed {
-                padding-top: 0;
-                padding-bottom: 0;
-                margin-bottom: 1.5rem;
-            }
-            
-            /* Make the toggle all button more prominent */
-            #toggle-all-sections {
-                background-color: var(--accent-color);
-            }
-            
-            #toggle-all-sections:hover {
-                background-color: #00b873; /* Darker shade of accent color */
-            }
-        }
-        
-        /* Add CSS for collapsible sections */
-        .section-title {
-            color: var(--primary-color);
-            margin-bottom: 1.2rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border-bottom: 1px solid var(--medium-gray);
-            padding-bottom: 0.5rem;
-        }
-        
-        .section-title.collapsible-header {
-            cursor: pointer;
-            position: relative;
-            padding-right: 30px;
-            transition: var(--transition);
-        }
-        
-        .section-title.collapsible-header:hover {
-            color: var(--primary-dark);
-        }
-        
-        .section-toggle {
-            position: absolute;
-            right: 5px;
-            top: 0;
-            font-weight: 600;
-            color: var(--primary-color);
-            transition: var(--transition);
-        }
-        
-        .section-title.active .section-toggle {
-            transform: rotate(45deg);
-            color: var(--accent-color);
-        }
-        
-        .section-content {
-            overflow: hidden;
-            max-height: 100000px; /* Large value to start with */
-            transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
-        }
-        
-        .section-content.collapsed {
-            max-height: 0;
-            opacity: 0;
-            margin-top: 0;
-            margin-bottom: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -722,6 +867,10 @@
     
     <!-- Sidebar with TOC -->
     <div id="sidebar">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search questions..." aria-label="Search questions">
+            <div id="search-results"></div>
+        </div>
         <h2>Table of Contents</h2>
         <ul>
             <li><a href="#performance-system">Performance System</a></li>
@@ -740,8 +889,8 @@
         </ul>
         <div class="sidebar-controls">
             <button id="sidebar-toggle-all-answers" class="btn" style="width: 100%; margin-top: 20px;">Hide All Answers</button>
-            <button id="sidebar-toggle-all-sections" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Collapse All Sections</button>
             <button id="sidebar-back-to-top" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Back to Top</button>
+            <button id="sidebar-collapse-all" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Collapse All Sections</button>
         </div>
     </div>
 
@@ -749,9 +898,19 @@
     
     <div class="controls">
         <button id="toggle-all-answers" class="btn">Hide All Answers</button>
-        <button id="toggle-all-sections" class="btn btn-secondary">Collapse All Sections</button>
         <button id="back-to-top" class="btn btn-secondary">Back to Top</button>
+        <button id="collapse-all-sections" class="btn btn-secondary">Collapse All Sections</button>
     </div>
+    
+    <!-- Floating action menu for mobile -->
+    <div class="floating-menu">
+        <button class="floating-btn" id="floating-top" aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+    </div>
+    
+    <!-- Quick navigation dots -->
+    <div class="quick-nav"></div>
     
     <div id="table-of-contents">
         <h2>Table of Contents</h2>
@@ -773,7 +932,14 @@
     </div>
     
     <div id="performance-system" class="section">
-        <h2 class="section-title collapsible-header">Performance System <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Performance System
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/5</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">How should the complexity of a task be handled if a performer is learning something new?</div>
@@ -818,7 +984,14 @@
     </div>
     
     <div id="resources-operations" class="section">
-        <h2 class="section-title collapsible-header">Resources and Facility Operations <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Resources and Facility Operations
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What types of resources are needed to carry out the facility's mission and financial goals?</div>
@@ -847,7 +1020,14 @@
     </div>
     
     <div id="input-management" class="section">
-        <h2 class="section-title collapsible-header">Input and Performance Management <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Input and Performance Management
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/4</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">Why would an audible thermometer need to be used to identify the appropriate temperature of food related to input?</div>
@@ -884,7 +1064,14 @@
     </div>
     
     <div id="consequences-feedback" class="section">
-        <h2 class="section-title collapsible-header">Consequences and Performance Feedback <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Consequences and Performance Feedback
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/6</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What type of consequence happens when a chef experiences gratification after presenting an elegant surf and turf dinner during a ladies' member-guest event?</div>
@@ -937,7 +1124,14 @@
     </div>
     
     <div id="team-performance" class="section">
-        <h2 class="section-title collapsible-header">Team Performance <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Team Performance
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">A team member who set the hole locations accurately and efficiently is assigned to routinely complete this maintenance task. What is the potential result of this situation?</div>
@@ -966,7 +1160,14 @@
     </div>
     
     <div id="problem-solving" class="section">
-        <h2 class="section-title collapsible-header">Problem Solving and Feedback <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Problem Solving and Feedback
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/11</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">A member attempts to return a golf shirt and demands a cash refund. The assistant professional insists on following the established policy for exchange. The member complains to the head professional, who then reprimands the assistant. Which element of the performance system is misaligned in this situation?</div>
@@ -1059,7 +1260,14 @@
     </div>
     
     <div id="leadership" class="section">
-        <h2 class="section-title collapsible-header">Leadership and Training <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Leadership and Training
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What is the most effective leadership approach when implementing a new performance management system with a team?</div>
@@ -1088,7 +1296,14 @@
     </div>
     
     <div id="time-management" class="section">
-        <h2 class="section-title collapsible-header">Time Management <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Time Management
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">How can a golf facility manager effectively prioritize multiple competing tasks during peak season?</div>
@@ -1117,7 +1332,14 @@
     </div>
     
     <div id="food-beverage" class="section">
-        <h2 class="section-title collapsible-header">Food and Beverage Operations <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Food and Beverage Operations
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/26</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What is the primary consequential benefit of having a well-run and successful food and beverage operation?</div>
@@ -1214,11 +1436,130 @@
                     Before determining the facility's level of food and beverage service, the operational goals and customer expectations must be identified.
                 </div>
             </div>
+            
+            <div class="question-container">
+                <div class="question">The Food and Beverage Manager uses internal control to keep the operation functioning smoothly with safeguards. What are its characteristics?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The characteristics of internal control used by the Food and Beverage Manager to keep the operation functioning smoothly include establishing procedures, monitoring compliance, and safeguarding assets.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What are the characteristics of internal control that the Food and Beverage Manager uses to keep the operation functioning smoothly?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Internal control characteristics include procedures for inventory management, cost control, and ensuring compliance with health and safety regulations.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the definition of food cost control?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Food cost control is defined as the process of managing and regulating the costs associated with purchasing and using food products to ensure profitability.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What two items are used to determine the standard cost of one portion produced from a standard recipe?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The two items used to determine the standard cost of one portion produced from a standard recipe are the cost of ingredients and the portion size.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the meaning of "food cost control"?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The meaning of "food cost control" is the practice of managing food expenses to maintain profitability while ensuring quality and customer satisfaction.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Where is the food and beverage service most vulnerable to losing profits due to excessive costs?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The food and beverage service is most vulnerable to losing profits due to excessive costs in areas such as inventory management, portion control, and waste management.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the most important guideline governing the selection and price of a facility's menu?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most important guideline governing the selection and price of a facility's menu is ensuring that the menu items meet customer expectations while allowing the facility to cover costs and achieve budgeted profits.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">If the cost of ingredients for a buffet entrée that yields fifty portions is $225.00, and the food cost percentage is 30%, what would be the per-portion selling price of the entrée?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To calculate the per-portion selling price of the buffet entrée, use the formula: Selling Price = (Cost of Ingredients / Number of Portions) / Food Cost Percentage. Therefore, Selling Price = ($225.00 / 50) / 0.30 = $15.00 per portion.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Placing incoming items behind older items is an example of which food storage method?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Placing incoming items behind older items is an example of the First-In, First-Out (FIFO) food storage method.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is an example of gathering market information?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An example of gathering market information is conducting customer surveys to understand preferences and expectations.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What are the operational goals of different types of facilities' food and beverage operations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The operational goals of different types of facilities' food and beverage operations vary. For example, private equity facilities may focus on high-quality service and breaking even, while public facilities may aim to provide affordable options and make a profit.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How should a facility begin their research to determine the most relevant type and level of food and beverage service they could provide?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A facility should begin their research by analyzing customer demographics, preferences, and market trends to determine the most relevant type and level of food and beverage service.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the predominant reason a public facility is likely to offer inexpensive food and beverage products?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A public facility is likely to offer inexpensive food and beverage products to attract a broad customer base and remain competitive.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What should be the relationship between labor costs and customer expectations in a food and beverage operation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The relationship between labor costs and customer expectations should be balanced to ensure efficient service delivery while meeting customer satisfaction and maintaining profitability.
+                </div>
+            </div>
         </div>
     </div>
     
     <div id="mental-game" class="section">
-        <h2 class="section-title collapsible-header">Mental Game and Psychology <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Mental Game and Psychology
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/36</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What is the cognitive rehearsal of a physical activity in the absence of any observable muscular movement?</div>
@@ -1347,163 +1688,18 @@
                     This is an example of positive transfer, utilizing previous skills to enhance new learning.
                 </div>
             </div>
-            
-            <div class="question-container">
-                <div class="question">What determines the transfer of golf skill learning?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Transfer of golf skill learning is determined by similarity between practice and performance conditions.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What conditions lead to greater learning transfer?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Greater learning transfer occurs with similar practice and performance conditions.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What term is used to describe transferring a learned skill of a 20-foot chip onto a practice green to a 50-foot chip on the same practice green?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    This is called near transfer, applying a learned skill to a similar situation.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of transfer likely occurs when applying the skill of a 20-foot chip learned in practice to a situation calling for a 20-foot chip in a club championship tournament?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Positive transfer likely occurs when applying a practiced skill in a competitive setting.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What term is used to describe learning the skill of putting on a practice green and effectively transferring to various greens on the golf course?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    This is known as far transfer, applying a learned skill to different contexts.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How is the "transfer effect" most likely to influence a situation where a player with an over-the-top down swing is being taught to drop the club below the shaft plane?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The transfer effect may cause initial difficulty as the player adjusts to new swing mechanics.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the most important shot in golf?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The most important shot in golf is often considered to be the next one.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is one way that players can achieve realistic goals?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Players can achieve realistic goals by setting specific, measurable, achievable, relevant, and time-bound (SMART) goals.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">A player sees water on the left side of the hole and then begins to visualize a fade for the tee shot. What is the player focusing on?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The player is focusing on shaping their shot to avoid the hazard.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How can a player play smart?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Playing smart involves making strategic decisions to minimize risks and maximize scoring opportunities.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is a mental game problem associated with confident play?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A mental game problem associated with confident play is overconfidence, which can lead to taking unnecessary risks.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">The director of golf and his two managers are on a golf outing in which the managers are scoring better. What is the mental game danger posed by this situation?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The mental game danger is allowing ego or pride to interfere with performance.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the reason that players should accept poor shot outcomes with the good ones?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Players should accept poor shot outcomes with the good ones to maintain a balanced perspective.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What does positive self-talk accomplish?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Positive self-talk helps reinforce confidence, focus, and a positive mindset.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Cheryl is ahead at the final hole of her club's stroke play championship. She takes extra time surveying the green, but three putts and loses the event by one stroke. What most likely happened?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Cheryl likely became too focused on the outcome and let nerves or pressure affect her putting, leading to a three-putt.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What are the benefits of an effective pre-shot routine?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The benefits of an effective pre-shot routine include improved focus, consistency, and confidence, helping players to mentally prepare for the shot.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What do effective pre-shot routines help players to focus their attention on?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Effective pre-shot routines help players focus their attention on the process of playing the game rather than the outcome.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is one purpose of a practice swing taken during a pre-shot routine?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    One purpose of a practice swing taken during a pre-shot routine is to help the player feel the swing they intend to make and build confidence.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What can golfers do to get out of their own way?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Golfers can get out of their own way by developing effective pre- and post-shot routines and focusing on the process rather than the outcome.
-                </div>
-            </div>
         </div>
     </div>
     
     <div id="teaching-coaching" class="section">
-        <h2 class="section-title collapsible-header">Teaching and Coaching <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Teaching and Coaching
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/29</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What type of player is best served by individual lessons?</div>
@@ -1544,203 +1740,18 @@
                     Teachers should respond to lessons that are getting off track by being flexible and adjusting the lesson plan to refocus on the student's needs.
                 </div>
             </div>
-            
-            <div class="question-container">
-                <div class="question">Why should one have contingency plans?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Contingency plans are important to address unexpected challenges and ensure the lesson remains productive and focused.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What should be included in long-term player development planning?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Long-term player development planning should include goals, milestones, and strategies for continuous improvement and skill development.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the purpose of golf instruction from the standpoint of long-term lesson planning?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The purpose of golf instruction from the standpoint of long-term lesson planning is to develop the player's skills, confidence, and enjoyment of the game.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the difference between a lesson plan and a long-term developmental plan?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A lesson plan focuses on short-term objectives for a specific session, while a long-term developmental plan outlines the player's growth over time.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How does the PGA define the elite player for purposes of developing a long-term player development plan?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The PGA defines the elite player for purposes of developing a long-term player development plan as one who competes at a high level and seeks continuous improvement.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What are the two guidelines that define both the purpose and the activities of a junior golf development program?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The two guidelines that define both the purpose and the activities of a junior golf development program are skill development and fostering a love for the game.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is one misconception regarding who is best qualified to teach people with a disability or injury to play golf?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    One misconception is that only specialized instructors can teach people with a disability or injury to play golf.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is often challenged when teaching a player with a disability or injury?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When teaching a player with a disability or injury, the instructor's creativity and adaptability are often challenged.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the best course of action if a teacher is unsure of what to say to a player who has a disability or injury?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    If a teacher is unsure of what to say to a player who has a disability or injury, the best course of action is to ask the player about their needs and preferences.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What should an instructor do when teaching someone who has lost a limb?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When teaching someone who has lost a limb, the instructor should focus on adapting techniques and equipment to suit the player's abilities.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">When teaching a player with a disability, which topics should be avoided during an opening interview?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    During an opening interview with a player who has a disability, topics to avoid include assumptions about their limitations or abilities.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What should a teacher do when teaching a player who has a disability?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When teaching a player who has a disability, the teacher should focus on the player's abilities and adapt instruction to meet their needs.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What does technology help the instructor to identify?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Technology helps the instructor to identify specific swing mechanics and areas for improvement.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How does a LPGA Tour player's angle of descent compare to that of the average PGA Tour player?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    An LPGA Tour player's angle of descent is typically shallower compared to that of the average PGA Tour player.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Should technology be used to help develop one model swing for all players?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Technology should not be used to develop one model swing for all players, as each player has unique characteristics and needs.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What should be established before introducing technology into the learning environment with a beginning golfer?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Before introducing technology into the learning environment with a beginning golfer, the instructor should establish the student's goals and comfort level with technology.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of feedback does technology provide during practice?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Technology provides objective feedback during practice, helping players understand their performance and areas for improvement.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How can a teacher use technology to help a golfer identify the root cause of losing clubhead lag too soon?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A teacher can use technology to help a golfer identify the root cause of losing clubhead lag too soon by analyzing swing data and video.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the typical result of using a camera that films with a slower frame rate?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The typical result of using a camera that films with a slower frame rate is less detailed analysis of fast movements, such as the golf swing.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">When recording golf swings from a down the line perspective using 2D video, what will the club appear to do from a camera angle that is lower and more behind the player?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When recording golf swings from a down-the-line perspective using 2D video, the club will appear to move more vertically from a camera angle that is lower and more behind the player.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">When putting, from what distance will a one-degree direction change hit the edge of the hole instead of the center of the hole?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When putting, a one-degree direction change will hit the edge of the hole instead of the center from a distance of approximately 10 feet.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">According to the course manual, what data describes the launch of the ball?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    According to the course manual, launch data describes the initial speed, angle, and spin of the ball as it leaves the clubface.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of teachers experiment with new ideas and practices?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Teachers who experiment with new ideas and practices are often innovative and open to continuous improvement.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How often should professionals engage in reflection of their own teaching skills?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Professionals should engage in reflection of their own teaching skills regularly to ensure ongoing development and effectiveness.
-                </div>
-            </div>
         </div>
     </div>
     
     <div id="club-fitting" class="section">
-        <h2 class="section-title collapsible-header">Club Fitting and Equipment <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Club Fitting and Equipment
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/16</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">What is an acceptable practice when a shaft has re-useable old buildup tape already on it?</div>
@@ -1781,99 +1792,18 @@
                     The most common means of removing old build-up tape from the shaft is to peel it off by hand. If the tape is stubborn, mineral spirits, a heat gun, or a grip knife can be used to assist in removal.
                 </div>
             </div>
-            
-            <div class="question-container">
-                <div class="question">How is the core size of a replacement grip determined?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The core size of a replacement grip is determined by matching it to the shaft butt diameter. This ensures a proper fit and performance.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the benefit of properly matched shafts?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The benefit of properly matched shafts is that they provide consistent performance, feel, and feedback, which can enhance a player's confidence and ability to execute shots.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will be the result of replacing a grip with one that is heavier than the original?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Replacing a grip with one that is heavier than the original will increase the swing weight of the club, making the head feel lighter during the swing.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will be the result of replacing a grip with one that is lighter than the original?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Replacing a grip with one that is lighter than the original will decrease the swing weight of the club, making the head feel heavier during the swing.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How does the total weight of a golf club affect a player?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The total weight of a golf club affects a player by influencing their swing speed, control, and overall feel of the club during the swing.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of shafts require butt trimming?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Parallel tip shafts typically require butt trimming to achieve the desired length and flex characteristics.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What are the two operative considerations when replacing a shaft?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The two operative considerations when replacing a shaft are the shaft's flex and weight, as these affect the club's performance and feel.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the first step in selecting a proper replacement shaft?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The first step in selecting a proper replacement shaft is to assess the player's swing characteristics and preferences to determine the appropriate flex, weight, and material.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the best way to prepare a graphite replacement shaft for insertion into a hosel?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The best way to prepare a graphite replacement shaft for insertion into a hosel is to use a graphite shaft puller to remove the old shaft and ensure the new shaft is properly trimmed and prepped.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">When is long-cure epoxy considered cured enough for ball striking?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Long-cure epoxy is considered cured enough for ball striking after it has set for the recommended curing time, typically 24 hours, to ensure maximum strength and adhesion.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will cutting one inch from the finished length of the club do to the swing weight?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Cutting one inch from the finished length of the club will decrease the swing weight by approximately 3 points, making the club feel lighter.
-                </div>
-            </div>
         </div>
     </div>
     
     <div id="golf-playing" class="section">
-        <h2 class="section-title collapsible-header">Playing Conditions and Shot Techniques <span class="section-toggle">+</span></h2>
+        <h2 class="section-title">
+            Playing Conditions and Shot Techniques
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/33</span>
+            </div>
+        </h2>
         <div class="section-content">
             <div class="question-container">
                 <div class="question">Where should a player play the ball when approaching a shot from an uphill lie?</div>
@@ -1914,286 +1844,6 @@
                     When playing from a downhill lie, the ball should be positioned slightly back in the stance to help achieve solid contact.
                 </div>
             </div>
-            
-            <div class="question-container">
-                <div class="question">How can an expert golfer curve a ball around an obstacle?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    An expert golfer can curve a ball around an obstacle by adjusting their swing path and clubface angle to produce a draw or fade.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the effect of intentionally curving the ball against the direction of a sidewind?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Intentionally curving the ball against the direction of a sidewind can help counteract the wind's effect and keep the ball on the intended line.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What might be anticipated as a consequence of hitting a ball from an uphill lie?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Hitting a ball from an uphill lie may result in a higher trajectory and shorter carry distance.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">For which lie are players well advised to keep the suspension point constant?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Players are well advised to keep the suspension point constant when playing from a sidehill lie to maintain balance and control.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is a major problem for the average golfer when playing a shot from a sidehill lie?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A major problem for the average golfer when playing a shot from a sidehill lie is maintaining balance and achieving solid contact.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What ball-flight tendency can be expected from a shot taken with the ball above the feet?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A ball-flight tendency from a shot taken with the ball above the feet is a draw or hook for right-handed players.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">As a rule, where should the player tee the ball on the tee in sidewind conditions?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    As a rule, the player should tee the ball on the side of the tee box that allows them to play away from trouble in sidewind conditions.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of sole should a sand wedge have to hit an effective shot from a hardpan lie?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A sand wedge with a narrow sole and less bounce is effective for hitting shots from a hardpan lie.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How might a player minimize the amount of grass trapped between the clubface and the ball when hitting from the rough?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    To minimize the amount of grass trapped between the clubface and the ball when hitting from the rough, a player can use a steeper angle of attack.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Why should a student choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A student should choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions for better launch and forgiveness.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What adjustments should a player make when hitting a shot from a flier lie?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When hitting a shot from a flier lie, a player should expect the ball to travel farther than usual due to reduced spin.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What wind condition magnifies errors in ball flight?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Wind conditions that magnify errors in ball flight include strong crosswinds and gusty conditions.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Which playing condition would hide a student's ball flight errors?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Playing conditions that hide a student's ball flight errors include calm weather and soft fairways.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">A student is considering whether to hit a long iron or hybrid from the fairway in cold, wet conditions. What should the student choose?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    In cold, wet conditions, a student should choose a hybrid over a long iron for better performance and ease of use.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What should be expected from a flier lie?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    From a flier lie, the ball is expected to travel farther than normal due to reduced spin and increased launch.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will adding four grams to the club head do?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Adding four grams to the club head will increase the swing weight by approximately 1 point, making the head feel heavier during the swing.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the upper limit for adding length to a graphite shafted club when using a shaft extender?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The upper limit for adding length to a graphite shafted club using a shaft extender is typically around 2 inches, as extending beyond this can compromise the shaft's integrity and performance.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is most affected when the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    When the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft, the swing weight and overall feel of the club are most affected.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How is the playing loft of a driver club calculated?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The playing loft of a driver club is calculated by measuring the angle between the clubface and the vertical plane when the club is in its normal address position.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What angle has the most effect on ball flight distance?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The loft angle has the most effect on ball flight distance, as it influences the launch angle and spin rate of the ball.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What condition indicates a faulty clubhead angle?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A faulty clubhead angle is indicated by inconsistent ball flight patterns, such as frequent hooks or slices, which suggest the lie angle may not be properly fitted.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the first thing to consider when preparing to bend the lie angle of an iron?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The first thing to consider when preparing to bend the lie angle of an iron is the material of the clubhead, as some materials are more malleable than others.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the purpose of club fitting?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The purpose of club fitting is to optimize the performance and comfort of the golf clubs for the individual player, enhancing their ability to play effectively.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the best way to compensate for a poor lie angle?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The best way to compensate for a poor lie angle is to adjust the lie angle of the club to better match the player's swing and impact position.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will exaggerate the effects on a ball flight caused by an improper lie angle?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    An improper lie angle will exaggerate the effects on ball flight, causing the ball to start off-line and potentially curve more than desired.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">How does too little driver loft affect a golf swing?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Too little driver loft can cause a player to struggle with achieving the optimal launch angle, resulting in lower ball flight and reduced carry distance.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What type of wedges will the club fitting specialist fit for their less skilled players?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Club fitting specialists may fit less skilled players with wedges that have more bounce and a wider sole to help with forgiveness and ease of use.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Fitting drivers requires matching the club specifications to the player to achieve what results?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Fitting drivers requires matching the club specifications to the player to achieve optimal launch conditions, maximizing distance and accuracy.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is the anticipated result of an effective golf club fitting?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The anticipated result of an effective golf club fitting is improved performance, consistency, and confidence for the player.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What will improve the putter's performance for most less-skilled players?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    Improving the putter's performance for most less-skilled players can be achieved by ensuring the putter is properly fitted for length, lie, and loft.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What is often a trade-off during the club fitting process?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    A trade-off during the club fitting process often involves balancing distance and control, as changes to one can affect the other.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">What are the effects on swing motion and feedback resulting from an effective club fitting?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The effects on swing motion and feedback resulting from an effective club fitting include improved consistency, better feel, and enhanced confidence in the player's equipment.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">During a joint problem-solving meeting, what would be expected to happen after addressing performance concerns and reviewing previous agreements?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    After addressing performance concerns and reviewing previous agreements during a reinforced problem-solving meeting, the next step would be to work with the performer to specify a course of action to solve the problem.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">During a joint problem-solving discussion, what must a manager and employee mutually agree upon?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    During a joint problem-solving discussion, a manager and employee must mutually agree upon the specific actions to be taken to resolve the performance problem and the process for follow-up.
-                </div>
-            </div>
-            
-            <div class="question-container">
-                <div class="question">Which stage of the Four-Stage Problem Solving Sequence gives the performer the opportunity to take ownership of the solution to the problem?</div>
-                <div class="answer">
-                    <span class="answer-label">ANSWER:</span>
-                    The stage of the Four-Stage Problem Solving Sequence that gives the performer the opportunity to take ownership of the solution is the "Joint Problem Solving" stage.
-                </div>
-            </div>
         </div>
     </div>
     
@@ -2209,122 +1859,83 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle question answers
-            const questions = document.querySelectorAll('.question');
+            // Make questions clickable to show/hide answers
             const questionContainers = document.querySelectorAll('.question-container');
-            const toggleAllBtn = document.getElementById('toggle-all-answers');
-            const sidebarToggleAllBtn = document.getElementById('sidebar-toggle-all-answers');
-            const backToTopBtn = document.getElementById('back-to-top');
-            const sidebarBackToTopBtn = document.getElementById('sidebar-back-to-top');
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const sidebar = document.getElementById('sidebar');
+            const questions = document.querySelectorAll('.question');
             
-            let allVisible = true;
-            
-            // Make question containers clickable
-            questionContainers.forEach(container => {
-                // Add a hover class to the container to indicate it's clickable
-                container.classList.add('clickable');
+            // Add progress markers to each question
+            questionContainers.forEach((container) => {
+                const progressMarker = document.createElement('div');
+                progressMarker.className = 'progress-marker';
+                progressMarker.setAttribute('title', 'Mark as completed');
+                container.appendChild(progressMarker);
                 
+                // Make entire container clickable
+                container.classList.add('clickable');
                 container.addEventListener('click', function(e) {
-                    // Don't toggle if clicking on the answer itself
-                    if (e.target.closest('.answer')) {
+                    // Don't toggle if clicking on the progress marker
+                    if (e.target.classList.contains('progress-marker')) {
                         return;
                     }
                     
-                    // Add clicked animation class
-                    this.classList.add('clicked');
-                    
-                    // Remove the class after animation completes
-                    setTimeout(() => {
-                        this.classList.remove('clicked');
-                    }, 300);
-                    
                     const question = this.querySelector('.question');
                     const answer = this.querySelector('.answer');
-                    
-                    // Toggle active class on the question
                     question.classList.toggle('active');
                     
-                    if (answer.style.maxHeight) {
-                        answer.style.maxHeight = null;
-                        answer.style.opacity = '0';
-                        setTimeout(() => {
-                            answer.style.display = 'none';
-                        }, 300);
+                    if (answer.style.display === 'block' || answer.style.display === '') {
+                        answer.style.display = 'none';
                     } else {
                         answer.style.display = 'block';
-                        setTimeout(() => {
-                            answer.style.maxHeight = answer.scrollHeight + 'px';
-                            answer.style.opacity = '1';
-                        }, 10);
                     }
                 });
             });
             
-            // Keeping the original question click handler for backward compatibility
-            questions.forEach(question => {
-                question.addEventListener('click', function(e) {
-                    // Prevent click event from bubbling to container
-                    e.stopPropagation();
+            // Handle progress marker clicks
+            const progressMarkers = document.querySelectorAll('.progress-marker');
+            progressMarkers.forEach((marker) => {
+                marker.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent container click
+                    this.classList.toggle('completed');
+                    updateProgressTracking();
                     
-                    this.classList.toggle('active');
-                    const answer = this.nextElementSibling;
-                    
-                    if (answer.style.maxHeight) {
-                        answer.style.maxHeight = null;
-                        answer.style.opacity = '0';
-                        setTimeout(() => {
-                            answer.style.display = 'none';
-                        }, 300);
-                    } else {
-                        answer.style.display = 'block';
-                        setTimeout(() => {
-                            answer.style.maxHeight = answer.scrollHeight + 'px';
-                            answer.style.opacity = '1';
-                        }, 10);
-                    }
+                    // Store progress in local storage
+                    saveProgress();
                 });
             });
+            
+            // Toggle all answers button functionality
+            const toggleAllBtn = document.getElementById('toggle-all-answers');
+            const sidebarToggleAllBtn = document.getElementById('sidebar-toggle-all-answers');
+            const mobileToggleAllBtn = document.getElementById('mobile-toggle-all-answers');
             
             function toggleAllAnswers() {
-                allVisible = !allVisible;
+                const answers = document.querySelectorAll('.answer');
+                const answersHidden = [...answers].some(answer => answer.style.display === 'none');
                 
-                questionContainers.forEach(container => {
-                    const question = container.querySelector('.question');
-                    const answer = container.querySelector('.answer');
-                    
-                    if (allVisible) {
-                        question.classList.add('active');
-                        answer.style.display = 'block';
-                        setTimeout(() => {
-                            answer.style.maxHeight = answer.scrollHeight + 'px';
-                            answer.style.opacity = '1';
-                        }, 10);
-                    } else {
-                        question.classList.remove('active');
-                        answer.style.maxHeight = null;
-                        answer.style.opacity = '0';
-                        setTimeout(() => {
-                            answer.style.display = 'none';
-                        }, 300);
-                    }
-                });
-                
-                toggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
-                sidebarToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
-                
-                // Update mobile toggle button text if it exists
-                const mobileToggleAllBtn = document.getElementById('mobile-toggle-all-answers');
-                if (mobileToggleAllBtn) {
-                    mobileToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
+                if (answersHidden) {
+                    answers.forEach(answer => answer.style.display = 'block');
+                    questions.forEach(question => question.classList.add('active'));
+                    toggleAllBtn.textContent = 'Hide All Answers';
+                    sidebarToggleAllBtn.textContent = 'Hide All Answers';
+                    if (mobileToggleAllBtn) mobileToggleAllBtn.textContent = 'Hide All Answers';
+                } else {
+                    answers.forEach(answer => answer.style.display = 'none');
+                    questions.forEach(question => question.classList.remove('active'));
+                    toggleAllBtn.textContent = 'Show All Answers';
+                    sidebarToggleAllBtn.textContent = 'Show All Answers';
+                    if (mobileToggleAllBtn) mobileToggleAllBtn.textContent = 'Show All Answers';
                 }
             }
             
             toggleAllBtn.addEventListener('click', toggleAllAnswers);
             sidebarToggleAllBtn.addEventListener('click', toggleAllAnswers);
+            if (mobileToggleAllBtn) mobileToggleAllBtn.addEventListener('click', toggleAllAnswers);
             
             // Back to top functionality
+            const backToTopBtn = document.getElementById('back-to-top');
+            const sidebarBackToTopBtn = document.getElementById('sidebar-back-to-top');
+            const floatingTopBtn = document.getElementById('floating-top');
+            
             function scrollToTop() {
                 window.scrollTo({
                     top: 0,
@@ -2334,13 +1945,61 @@
             
             backToTopBtn.addEventListener('click', scrollToTop);
             sidebarBackToTopBtn.addEventListener('click', scrollToTop);
+            floatingTopBtn.addEventListener('click', scrollToTop);
             
-            // Mobile menu toggle
-            mobileMenuToggle.addEventListener('click', function() {
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            // Mobile Menu Toggle
+            const sidebarToggle = document.getElementById('mobile-menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const body = document.body;
+            
+            sidebarToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('active');
+                body.classList.toggle('sidebar-open');
                 
-                // Update hamburger icon
+                // Add overlay when sidebar is open
+                if (!document.querySelector('.sidebar-overlay')) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'sidebar-overlay';
+                    document.body.appendChild(overlay);
+                    
+                    // Add click event to close sidebar when overlay is clicked
+                    overlay.addEventListener('click', function() {
+                        sidebar.classList.remove('active');
+                        body.classList.remove('sidebar-open');
+                        overlay.classList.remove('active');
+                        setTimeout(() => {
+                            overlay.remove();
+                        }, 300);
+                    });
+                    
+                    // Show overlay with animation
+                    setTimeout(() => {
+                        overlay.classList.add('active');
+                    }, 10);
+                } else {
+                    const overlay = document.querySelector('.sidebar-overlay');
+                    if (sidebar.classList.contains('active')) {
+                        overlay.classList.add('active');
+                    } else {
+                        overlay.classList.remove('active');
+                        setTimeout(() => {
+                            overlay.remove();
+                        }, 300);
+                    }
+                }
+                
+                // Animation for hamburger icon
                 const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
+                
                 if (sidebar.classList.contains('active')) {
                     hamburgerSpans[0].style.transform = 'rotate(45deg)';
                     hamburgerSpans[0].style.top = '7px';
@@ -2348,100 +2007,6 @@
                     hamburgerSpans[2].style.transform = 'rotate(-45deg)';
                     hamburgerSpans[2].style.bottom = '7px';
                 } else {
-                    hamburgerSpans[0].style.transform = 'none';
-                    hamburgerSpans[0].style.top = '0';
-                    hamburgerSpans[1].style.opacity = '1';
-                    hamburgerSpans[2].style.transform = 'none';
-                    hamburgerSpans[2].style.bottom = '0';
-                }
-            });
-            
-            // Highlight current section in sidebar
-            const sections = document.querySelectorAll('.section');
-            const sidebarLinks = document.querySelectorAll('#sidebar a');
-            
-            function highlightCurrentSection() {
-                const scrollPosition = window.scrollY;
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 100;
-                    const sectionBottom = sectionTop + section.offsetHeight;
-                    const sectionId = section.getAttribute('id');
-                    
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        sidebarLinks.forEach(link => {
-                            link.classList.remove('current');
-                            if (link.getAttribute('href') === '#' + sectionId) {
-                                link.classList.add('current');
-                            }
-                        });
-                    }
-                });
-            }
-            
-            window.addEventListener('scroll', highlightCurrentSection);
-            highlightCurrentSection();
-            
-            // Initialize answers state (all hidden by default)
-            questions.forEach(question => {
-                const answer = question.nextElementSibling;
-                answer.style.display = 'none';
-                answer.style.maxHeight = null;
-                answer.style.opacity = '0';
-                answer.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-            });
-            
-            // Show answers by default on page load
-            setTimeout(() => {
-                toggleAllAnswers();
-            }, 100);
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 20,
-                            behavior: 'smooth'
-                        });
-                        
-                        // Close mobile sidebar if open
-                        if (window.innerWidth <= 768) {
-                            sidebar.classList.remove('active');
-                        }
-                    }
-                });
-            });
-            
-            // Show/hide back to top button on scroll
-            function toggleBackToTopButton() {
-                const backToTopBtn = document.getElementById('back-to-top');
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.add('visible');
-                } else {
-                    backToTopBtn.classList.remove('visible');
-                }
-            }
-            
-            window.addEventListener('scroll', toggleBackToTopButton);
-            toggleBackToTopButton();
-            
-            // Close sidebar when clicking outside
-            document.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768 && 
-                    sidebar.classList.contains('active') && 
-                    !sidebar.contains(e.target) && 
-                    e.target !== mobileMenuToggle &&
-                    !mobileMenuToggle.contains(e.target)) {
-                    sidebar.classList.remove('active');
-                    
-                    // Reset hamburger icon
-                    const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
                     hamburgerSpans[0].style.transform = 'none';
                     hamburgerSpans[0].style.top = '0';
                     hamburgerSpans[1].style.opacity = '1';
@@ -2454,110 +2019,322 @@
             const themeToggle = document.getElementById('theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
             
-            // Check for saved theme preference or use device preference
-            const savedTheme = localStorage.getItem('theme') || 
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            // Check if user has already set a theme preference
+            const currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+            document.documentElement.setAttribute('data-theme', currentTheme);
             
-            // Apply saved theme
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
+            // Set the correct icon based on theme
+            if (currentTheme === 'dark') {
+                // Update icon to moon for dark mode
+                themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+            } else {
+                // Update icon to sun for light mode
+                themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+            }
             
-            // Toggle theme
-            themeToggle.addEventListener('click', () => {
+            themeToggle.addEventListener('click', function() {
+                // If data-theme is dark, switch to light
                 const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                 
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
-                updateThemeIcon(newTheme);
-            });
-            
-            function updateThemeIcon(theme) {
-                if (theme === 'dark') {
+                
+                if (newTheme === 'dark') {
+                    // Update icon to moon for dark mode
                     themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
                 } else {
+                    // Update icon to sun for light mode
                     themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
                 }
-            }
-            
-            // Handle mobile specific controls
-            if (window.innerWidth <= 768) {
-                const mobileToggleAllBtn = document.getElementById('mobile-toggle-all-answers');
-                
-                mobileToggleAllBtn.addEventListener('click', toggleAllAnswers);
-                
-                // Update mobile toggle text when main toggle is clicked
-                toggleAllBtn.addEventListener('click', () => {
-                    mobileToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
-                });
-                
-                sidebarToggleAllBtn.addEventListener('click', () => {
-                    mobileToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
-                });
-            }
-            
-            // Mobile sidebar overlay
-            const sidebarOverlay = document.createElement('div');
-            sidebarOverlay.className = 'sidebar-overlay';
-            document.body.appendChild(sidebarOverlay);
-            
-            // Handle mobile menu
-            mobileMenuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-                document.body.classList.toggle('sidebar-open');
-                sidebarOverlay.classList.toggle('active');
-                
-                // Update hamburger icon
-                const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
-                if (sidebar.classList.contains('active')) {
-                    hamburgerSpans[0].style.transform = 'rotate(45deg)';
-                    hamburgerSpans[0].style.top = '7px';
-                    hamburgerSpans[1].style.opacity = '0';
-                    hamburgerSpans[2].style.transform = 'rotate(-45deg)';
-                    hamburgerSpans[2].style.bottom = '7px';
-                } else {
-                    hamburgerSpans[0].style.transform = 'none';
-                    hamburgerSpans[0].style.top = '0';
-                    hamburgerSpans[1].style.opacity = '1';
-                    hamburgerSpans[2].style.transform = 'none';
-                    hamburgerSpans[2].style.bottom = '0';
-                }
             });
             
-            // Close sidebar when clicking overlay
-            sidebarOverlay.addEventListener('click', function() {
-                sidebar.classList.remove('active');
-                document.body.classList.remove('sidebar-open');
-                sidebarOverlay.classList.remove('active');
-                
-                // Reset hamburger icon
-                const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
-                hamburgerSpans[0].style.transform = 'none';
-                hamburgerSpans[0].style.top = '0';
-                hamburgerSpans[1].style.opacity = '1';
-                hamburgerSpans[2].style.transform = 'none';
-                hamburgerSpans[2].style.bottom = '0';
-            });
+            // Make sidebar links highlight current section on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('#sidebar a');
             
-            // Close sidebar when clicking on links (for mobile)
-            // Use the existing sidebarLinks variable that was declared earlier
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('active');
-                        document.body.classList.remove('sidebar-open');
-                        sidebarOverlay.classList.remove('active');
-                        
-                        // Reset hamburger icon
-                        const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
-                        hamburgerSpans[0].style.transform = 'none';
-                        hamburgerSpans[0].style.top = '0';
-                        hamburgerSpans[1].style.opacity = '1';
-                        hamburgerSpans[2].style.transform = 'none';
-                        hamburgerSpans[2].style.bottom = '0';
+            function updateActiveLink() {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop - 200) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('current');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('current');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveLink);
+            
+            // Section collapse functionality
+            const sectionTitles = document.querySelectorAll('.section-title');
+            
+            sectionTitles.forEach(title => {
+                title.addEventListener('click', function(e) {
+                    const section = this.closest('.section');
+                    const collapseBtn = this.querySelector('.section-collapse-btn');
+                    
+                    section.classList.toggle('collapsed');
+                    
+                    if (section.classList.contains('collapsed')) {
+                        collapseBtn.innerHTML = '+';
+                        collapseBtn.setAttribute('aria-label', 'Expand section');
+                    } else {
+                        collapseBtn.innerHTML = '−';
+                        collapseBtn.setAttribute('aria-label', 'Collapse section');
                     }
                 });
             });
+            
+            // Global collapse all sections functionality
+            const collapseAllBtn = document.getElementById('collapse-all-sections');
+            const sidebarCollapseAllBtn = document.getElementById('sidebar-collapse-all');
+            
+            function toggleAllSections() {
+                const sections = document.querySelectorAll('.section');
+                const allCollapsed = [...sections].every(section => section.classList.contains('collapsed'));
+                
+                sections.forEach(section => {
+                    const collapseBtn = section.querySelector('.section-collapse-btn');
+                    
+                    if (allCollapsed) {
+                        section.classList.remove('collapsed');
+                        if (collapseBtn) {
+                            collapseBtn.innerHTML = '−';
+                            collapseBtn.setAttribute('aria-label', 'Collapse section');
+                        }
+                    } else {
+                        section.classList.add('collapsed');
+                        if (collapseBtn) {
+                            collapseBtn.innerHTML = '+';
+                            collapseBtn.setAttribute('aria-label', 'Expand section');
+                        }
+                    }
+                });
+                
+                if (allCollapsed) {
+                    collapseAllBtn.textContent = 'Collapse All Sections';
+                    sidebarCollapseAllBtn.textContent = 'Collapse All Sections';
+                } else {
+                    collapseAllBtn.textContent = 'Expand All Sections';
+                    sidebarCollapseAllBtn.textContent = 'Expand All Sections';
+                }
+            }
+            
+            collapseAllBtn.addEventListener('click', toggleAllSections);
+            sidebarCollapseAllBtn.addEventListener('click', toggleAllSections);
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm.length < 2) {
+                    searchResults.innerHTML = '';
+                    searchResults.classList.remove('active');
+                    return;
+                }
+                
+                const allQuestions = document.querySelectorAll('.question-container .question');
+                let matchingQuestions = [];
+                
+                allQuestions.forEach(question => {
+                    const questionText = question.textContent.toLowerCase();
+                    if (questionText.includes(searchTerm)) {
+                        matchingQuestions.push({
+                            text: question.textContent,
+                            element: question.closest('.question-container'),
+                            section: question.closest('.section').querySelector('.section-title').textContent.trim()
+                        });
+                    }
+                });
+                
+                // Also search in answers
+                const allAnswers = document.querySelectorAll('.question-container .answer');
+                allAnswers.forEach(answer => {
+                    const answerText = answer.textContent.toLowerCase();
+                    if (answerText.includes(searchTerm)) {
+                        const questionContainer = answer.closest('.question-container');
+                        const questionText = questionContainer.querySelector('.question').textContent;
+                        
+                        // Check if we already added this question
+                        const alreadyAdded = matchingQuestions.some(item => 
+                            item.text === questionText
+                        );
+                        
+                        if (!alreadyAdded) {
+                            matchingQuestions.push({
+                                text: questionText,
+                                element: questionContainer,
+                                section: questionContainer.closest('.section').querySelector('.section-title').textContent.trim()
+                            });
+                        }
+                    }
+                });
+                
+                // Display results
+                searchResults.innerHTML = '';
+                
+                if (matchingQuestions.length === 0) {
+                    searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+                    searchResults.classList.add('active');
+                    return;
+                }
+                
+                matchingQuestions.forEach(match => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <span class="search-result-section">${match.section}</span>
+                        <span class="search-result-text">${match.text}</span>
+                    `;
+                    
+                    resultItem.addEventListener('click', function() {
+                        // Scroll to the question
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Highlight the question temporarily
+                        match.element.style.backgroundColor = 'rgba(58, 123, 213, 0.1)';
+                        setTimeout(() => {
+                            match.element.style.backgroundColor = '';
+                        }, 2000);
+                        
+                        // Show the answer
+                        const question = match.element.querySelector('.question');
+                        const answer = match.element.querySelector('.answer');
+                        question.classList.add('active');
+                        answer.style.display = 'block';
+                        
+                        // Clear search results
+                        searchResults.innerHTML = '';
+                        searchResults.classList.remove('active');
+                        searchInput.value = '';
+                        
+                        // Close sidebar on mobile
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('active');
+                            body.classList.remove('sidebar-open');
+                            const overlay = document.querySelector('.sidebar-overlay');
+                            if (overlay) {
+                                overlay.classList.remove('active');
+                                setTimeout(() => {
+                                    overlay.remove();
+                                }, 300);
+                            }
+                        }
+                    });
+                    
+                    searchResults.appendChild(resultItem);
+                });
+                
+                searchResults.classList.add('active');
+            });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Quick navigation dots
+            const quickNav = document.querySelector('.quick-nav');
+            
+            // Create navigation dots for each section
+            sections.forEach((section, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                
+                const tooltip = document.createElement('span');
+                tooltip.className = 'nav-tooltip';
+                tooltip.textContent = section.querySelector('.section-title').textContent.trim();
+                
+                dot.appendChild(tooltip);
+                quickNav.appendChild(dot);
+                
+                dot.addEventListener('click', function() {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Update active dot on scroll
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            function updateActiveDot() {
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop - 200 && window.scrollY < sectionTop + sectionHeight - 200) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index].classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveDot);
+            
+            // Progress tracking functionality
+            function updateProgressTracking() {
+                sections.forEach(section => {
+                    const questionsInSection = section.querySelectorAll('.question-container');
+                    const completedQuestionsInSection = section.querySelectorAll('.progress-marker.completed');
+                    
+                    const progressBar = section.querySelector('.progress-fill');
+                    const progressText = section.querySelector('.progress-text');
+                    
+                    const progressPercentage = (completedQuestionsInSection.length / questionsInSection.length) * 100;
+                    progressBar.style.width = `${progressPercentage}%`;
+                    progressText.textContent = `${completedQuestionsInSection.length}/${questionsInSection.length}`;
+                });
+            }
+            
+            // Save progress to local storage
+            function saveProgress() {
+                const progressData = {};
+                
+                progressMarkers.forEach((marker, index) => {
+                    const questionText = marker.closest('.question-container').querySelector('.question').textContent;
+                    progressData[questionText] = marker.classList.contains('completed');
+                });
+                
+                localStorage.setItem('questionsProgress', JSON.stringify(progressData));
+            }
+            
+            // Load progress from local storage
+            function loadProgress() {
+                const savedProgress = localStorage.getItem('questionsProgress');
+                
+                if (savedProgress) {
+                    const progressData = JSON.parse(savedProgress);
+                    
+                    // Match saved progress to current questions
+                    progressMarkers.forEach(marker => {
+                        const questionText = marker.closest('.question-container').querySelector('.question').textContent;
+                        
+                        if (progressData[questionText]) {
+                            marker.classList.add('completed');
+                        }
+                    });
+                    
+                    updateProgressTracking();
+                }
+            }
+            
+            // Initialize progress tracking
+            loadProgress();
+            updateProgressTracking();
             
             // Adjust the staggered animation effect for questions
             function applyStaggeredAnimation() {
@@ -2571,104 +2348,29 @@
             
             applyStaggeredAnimation();
             
-            // Make sections collapsible
-            const sectionHeaders = document.querySelectorAll('.section-title.collapsible-header');
-            
-            // Initialize sections (expanded by default)
-            sectionHeaders.forEach(header => {
-                const sectionContent = header.nextElementSibling;
-                if (sectionContent && sectionContent.classList.contains('section-content')) {
-                    // Start with all sections expanded
-                    header.classList.add('active');
-                    sectionContent.style.maxHeight = sectionContent.scrollHeight + 'px';
-                }
+            // Add ARIA attributes for better accessibility
+            questions.forEach(question => {
+                question.setAttribute('role', 'button');
+                question.setAttribute('aria-expanded', 'false');
                 
-                // Add click event to toggle sections
-                header.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = this.nextElementSibling;
-                    
-                    if (content && content.classList.contains('section-content')) {
-                        if (this.classList.contains('active')) {
-                            content.style.maxHeight = content.scrollHeight + 'px';
-                            content.classList.remove('collapsed');
-                        } else {
-                            content.style.maxHeight = '0';
-                            content.classList.add('collapsed');
-                        }
-                    }
+                question.closest('.question-container').addEventListener('click', function() {
+                    const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                    question.setAttribute('aria-expanded', !isExpanded);
                 });
             });
             
-            // Add a button to toggle all sections
-            const mobileSectionToggleBtn = document.createElement('button');
-            mobileSectionToggleBtn.className = 'btn';
-            mobileSectionToggleBtn.id = 'toggle-all-sections';
-            mobileSectionToggleBtn.textContent = 'Collapse All Sections';
-            mobileSectionToggleBtn.style.marginLeft = '10px';
-            
-            // Add the button to mobile controls
-            const mobileControls = document.getElementById('mobile-controls');
-            if (mobileControls) {
-                mobileControls.appendChild(mobileSectionToggleBtn);
-            }
-            
-            // Track section visibility state
-            let allSectionsVisible = true;
-            
-            // Toggle all sections function
-            function toggleAllSections() {
-                allSectionsVisible = !allSectionsVisible;
+            // Initialize all sections with proper content structure
+            sections.forEach(section => {
+                const sectionQuestions = section.querySelectorAll('.question-container');
+                const sectionContent = document.createElement('div');
+                sectionContent.className = 'section-content';
                 
-                sectionHeaders.forEach(header => {
-                    const content = header.nextElementSibling;
-                    
-                    if (content && content.classList.contains('section-content')) {
-                        if (allSectionsVisible) {
-                            header.classList.add('active');
-                            content.style.maxHeight = content.scrollHeight + 'px';
-                            content.classList.remove('collapsed');
-                        } else {
-                            header.classList.remove('active');
-                            content.style.maxHeight = '0';
-                            content.classList.add('collapsed');
-                        }
-                    }
+                // Move all question containers into the section content div
+                sectionQuestions.forEach(questionContainer => {
+                    sectionContent.appendChild(questionContainer);
                 });
                 
-                mobileSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
-            }
-            
-            // Add click event to the toggle all sections button
-            mobileSectionToggleBtn.addEventListener('click', toggleAllSections);
-            
-            // Add click event to the toggle all sections button (desktop version)
-            const desktopSectionToggleBtn = document.getElementById('toggle-all-sections');
-            if (desktopSectionToggleBtn) {
-                desktopSectionToggleBtn.addEventListener('click', toggleAllSections);
-            }
-            
-            // Add click event to the toggle all sections button (sidebar version)
-            const sidebarSectionToggleBtn = document.getElementById('sidebar-toggle-all-sections');
-            if (sidebarSectionToggleBtn) {
-                sidebarSectionToggleBtn.addEventListener('click', toggleAllSections);
-            }
-            
-            // Update both section toggle buttons when one is clicked
-            mobileSectionToggleBtn.addEventListener('click', () => {
-                if (desktopSectionToggleBtn) {
-                    desktopSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
-                }
-                if (sidebarSectionToggleBtn) {
-                    sidebarSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
-                }
-            });
-            
-            desktopSectionToggleBtn.addEventListener('click', () => {
-                mobileSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
-                if (sidebarSectionToggleBtn) {
-                    sidebarSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
-                }
+                section.appendChild(sectionContent);
             });
         });
     </script>
