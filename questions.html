@@ -601,6 +601,97 @@
                 box-shadow: var(--shadow-md);
                 font-size: 0.85rem;
             }
+            
+            /* Collapsible section styles for mobile */
+            .section-title.collapsible-header {
+                padding: 12px 30px 12px 12px;
+                margin-bottom: 0.5rem;
+                background-color: var(--primary-color);
+                color: white;
+                border-radius: var(--border-radius);
+                border-bottom: none;
+                box-shadow: var(--shadow-sm);
+                position: relative;
+            }
+            
+            .section-title.collapsible-header:hover {
+                background-color: var(--primary-dark);
+            }
+            
+            .section-toggle {
+                right: 12px;
+                top: 12px;
+                color: white;
+            }
+            
+            .section-content {
+                padding: 0 8px;
+                transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.3s ease;
+            }
+            
+            .section-content.collapsed {
+                padding-top: 0;
+                padding-bottom: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Make the toggle all button more prominent */
+            #toggle-all-sections {
+                background-color: var(--accent-color);
+            }
+            
+            #toggle-all-sections:hover {
+                background-color: #00b873; /* Darker shade of accent color */
+            }
+        }
+        
+        /* Add CSS for collapsible sections */
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title.collapsible-header {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+            transition: var(--transition);
+        }
+        
+        .section-title.collapsible-header:hover {
+            color: var(--primary-dark);
+        }
+        
+        .section-toggle {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .section-title.active .section-toggle {
+            transform: rotate(45deg);
+            color: var(--accent-color);
+        }
+        
+        .section-content {
+            overflow: hidden;
+            max-height: 100000px; /* Large value to start with */
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
+        }
+        
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -649,6 +740,7 @@
         </ul>
         <div class="sidebar-controls">
             <button id="sidebar-toggle-all-answers" class="btn" style="width: 100%; margin-top: 20px;">Hide All Answers</button>
+            <button id="sidebar-toggle-all-sections" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Collapse All Sections</button>
             <button id="sidebar-back-to-top" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Back to Top</button>
         </div>
     </div>
@@ -657,6 +749,7 @@
     
     <div class="controls">
         <button id="toggle-all-answers" class="btn">Hide All Answers</button>
+        <button id="toggle-all-sections" class="btn btn-secondary">Collapse All Sections</button>
         <button id="back-to-top" class="btn btn-secondary">Back to Top</button>
     </div>
     
@@ -680,1549 +773,1426 @@
     </div>
     
     <div id="performance-system" class="section">
-        <h2 class="section-title">Performance System</h2>
-        
-        <div class="question-container">
-            <div class="question">How should the complexity of a task be handled if a performer is learning something new?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                If a performer is learning something new, the complexity of the task should be handled by starting simply. Provide only the basics at first, and then add complexity after the performer has mastered the basics.
+        <h2 class="section-title collapsible-header">Performance System <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">How should the complexity of a task be handled if a performer is learning something new?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If a performer is learning something new, the complexity of the task should be handled by starting simply. Provide only the basics at first, and then add complexity after the performer has mastered the basics.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What expectations should a manager's performance standards reflect?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A manager's performance standards should reflect expectations in terms of quality, timeliness, and initiative on the staff member's part.
+            
+            <div class="question-container">
+                <div class="question">What expectations should a manager's performance standards reflect?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager's performance standards should reflect expectations in terms of quality, timeliness, and initiative on the staff member's part.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What element of the performance system describes the job task?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The element of the performance system that describes the job task is the "Task" itself. It is the action the performer is ready to undertake once they have a clear sense of expectations, understand the resources available, and know how to respond to input.
+            
+            <div class="question-container">
+                <div class="question">What element of the performance system describes the job task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The element of the performance system that describes the job task is the "Task" itself. It is the action the performer is ready to undertake once they have a clear sense of expectations, understand the resources available, and know how to respond to input.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the recommended guideline a manager should use if an employee's actual performance differs from expected performance?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                If an employee's actual performance differs from expected performance, the recommended guideline is to address the gap as quickly as possible before it becomes too large to address easily.
+            
+            <div class="question-container">
+                <div class="question">What is the recommended guideline a manager should use if an employee's actual performance differs from expected performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If an employee's actual performance differs from expected performance, the recommended guideline is to address the gap as quickly as possible before it becomes too large to address easily.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How should resources be allocated to avoid overwhelming a performer?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To avoid overwhelming a performer, resources should be allocated by ensuring that the performer is fully aware of all available resources and how to use them. Involve the performer in the process of deciding how to allocate the available resources.
+            
+            <div class="question-container">
+                <div class="question">How should resources be allocated to avoid overwhelming a performer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To avoid overwhelming a performer, resources should be allocated by ensuring that the performer is fully aware of all available resources and how to use them. Involve the performer in the process of deciding how to allocate the available resources.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="resources-operations" class="section">
-        <h2 class="section-title">Resources and Facility Operations</h2>
-        
-        <div class="question-container">
-            <div class="question">What types of resources are needed to carry out the facility's mission and financial goals?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The types of resources needed to carry out the facility's mission and financial goals include human resources, financial resources, and time-based resources.
+        <h2 class="section-title collapsible-header">Resources and Facility Operations <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What types of resources are needed to carry out the facility's mission and financial goals?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The types of resources needed to carry out the facility's mission and financial goals include human resources, financial resources, and time-based resources.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">The golf shop merchandise operation is underperforming to revenue projections and inventory management challenges are occurring. What type of resources could best resolve these problems?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To resolve underperformance in revenue projections and inventory management challenges in the golf shop merchandise operation, resources such as inventory management software and sufficient staff for operation could be beneficial.
+            
+            <div class="question-container">
+                <div class="question">The golf shop merchandise operation is underperforming to revenue projections and inventory management challenges are occurring. What type of resources could best resolve these problems?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To resolve underperformance in revenue projections and inventory management challenges in the golf shop merchandise operation, resources such as inventory management software and sufficient staff for operation could be beneficial.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Which element of the performance system is being utilized when managers communicate the information needed for a performer to complete a task?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The element of the performance system being utilized when managers communicate the information needed for a performer to complete a task is "Input."
+            
+            <div class="question-container">
+                <div class="question">Which element of the performance system is being utilized when managers communicate the information needed for a performer to complete a task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The element of the performance system being utilized when managers communicate the information needed for a performer to complete a task is "Input."
+                </div>
             </div>
         </div>
     </div>
     
     <div id="input-management" class="section">
-        <h2 class="section-title">Input and Performance Management</h2>
-        
-        <div class="question-container">
-            <div class="question">Why would an audible thermometer need to be used to identify the appropriate temperature of food related to input?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An audible thermometer might be used to identify the appropriate temperature of food related to input to ensure that the performer receives a clear and noticeable signal to take the appropriate action.
+        <h2 class="section-title collapsible-header">Input and Performance Management <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">Why would an audible thermometer need to be used to identify the appropriate temperature of food related to input?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An audible thermometer might be used to identify the appropriate temperature of food related to input to ensure that the performer receives a clear and noticeable signal to take the appropriate action.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A hydraulic leak is discovered when using a triplex mower on the greens. What type of input amplifier can be implemented to minimize the problem?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To minimize the problem of a hydraulic leak discovered when using a triplex mower on the greens, an input amplifier such as regular maintenance checks or visual indicators could be implemented.
+            
+            <div class="question-container">
+                <div class="question">A hydraulic leak is discovered when using a triplex mower on the greens. What type of input amplifier can be implemented to minimize the problem?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To minimize the problem of a hydraulic leak discovered when using a triplex mower on the greens, an input amplifier such as regular maintenance checks or visual indicators could be implemented.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is defined as the information, circumstances, or events that signal a performer to take the appropriate action?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The information, circumstances, or events that signal a performer to take the appropriate action are defined as "Input."
+            
+            <div class="question-container">
+                <div class="question">What is defined as the information, circumstances, or events that signal a performer to take the appropriate action?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The information, circumstances, or events that signal a performer to take the appropriate action are defined as "Input."
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should a manager do when a performer has difficulty recognizing when to take action on a specific task?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When a performer has difficulty recognizing when to take action on a specific task, a manager should provide specific direction or amplify the input to ensure it is noticed.
+            
+            <div class="question-container">
+                <div class="question">What should a manager do when a performer has difficulty recognizing when to take action on a specific task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a performer has difficulty recognizing when to take action on a specific task, a manager should provide specific direction or amplify the input to ensure it is noticed.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="consequences-feedback" class="section">
-        <h2 class="section-title">Consequences and Performance Feedback</h2>
-        
-        <div class="question-container">
-            <div class="question">What type of consequence happens when a chef experiences gratification after presenting an elegant surf and turf dinner during a ladies' member-guest event?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The type of consequence that happens when a chef experiences gratification after presenting an elegant surf and turf dinner is a positive consequence, as it provides a sense of accomplishment and recognition.
+        <h2 class="section-title collapsible-header">Consequences and Performance Feedback <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What type of consequence happens when a chef experiences gratification after presenting an elegant surf and turf dinner during a ladies' member-guest event?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The type of consequence that happens when a chef experiences gratification after presenting an elegant surf and turf dinner is a positive consequence, as it provides a sense of accomplishment and recognition.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">An employee is repeatedly late for the morning shift. The supervisor reassigns this person to the afternoon shift. What is the problem with this scheduling adjustment?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The problem with reassigning an employee who is repeatedly late for the morning shift to the afternoon shift is that it may not address the underlying issue of punctuality and could be seen as avoiding the problem rather than solving it.
+            
+            <div class="question-container">
+                <div class="question">An employee is repeatedly late for the morning shift. The supervisor reassigns this person to the afternoon shift. What is the problem with this scheduling adjustment?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The problem with reassigning an employee who is repeatedly late for the morning shift to the afternoon shift is that it may not address the underlying issue of punctuality and could be seen as avoiding the problem rather than solving it.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What happens when a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament, they receive a positive consequence that reinforces desirable behavior and increases the likelihood they will continue performing well.
+            
+            <div class="question-container">
+                <div class="question">What happens when a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament, they receive a positive consequence that reinforces desirable behavior and increases the likelihood they will continue performing well.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Numerous members complain about the conditions and speed of the greens after weekend play. The PGA General Manager meets with the golf course Superintendent at Friday's staff meeting regarding this issue. What is the potential problem with this situation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The potential problem with meeting the golf course Superintendent at Friday's staff meeting regarding complaints about the greens is that it may not allow for timely feedback and resolution before the weekend play.
+            
+            <div class="question-container">
+                <div class="question">Numerous members complain about the conditions and speed of the greens after weekend play. The PGA General Manager meets with the golf course Superintendent at Friday's staff meeting regarding this issue. What is the potential problem with this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The potential problem with meeting the golf course Superintendent at Friday's staff meeting regarding complaints about the greens is that it may not allow for timely feedback and resolution before the weekend play.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What interpersonal skill should a manager use when discussing agreed-upon expectations?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When discussing agreed-upon expectations, a manager should use the interpersonal skill of "Active Listening" to ensure understanding and agreement.
+            
+            <div class="question-container">
+                <div class="question">What interpersonal skill should a manager use when discussing agreed-upon expectations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When discussing agreed-upon expectations, a manager should use the interpersonal skill of "Active Listening" to ensure understanding and agreement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a guideline of giving effective feedback?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A guideline of giving effective feedback is to provide it in a supportive manner and ensure it is clear and easy to interpret.
+            
+            <div class="question-container">
+                <div class="question">What is a guideline of giving effective feedback?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A guideline of giving effective feedback is to provide it in a supportive manner and ensure it is clear and easy to interpret.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="team-performance" class="section">
-        <h2 class="section-title">Team Performance</h2>
-        
-        <div class="question-container">
-            <div class="question">A team member who set the hole locations accurately and efficiently is assigned to routinely complete this maintenance task. What is the potential result of this situation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The potential result of assigning a team member who set the hole locations accurately and efficiently to routinely complete this maintenance task is that it could lead to a lack of variety and potential burnout, reducing motivation over time.
+        <h2 class="section-title collapsible-header">Team Performance <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">A team member who set the hole locations accurately and efficiently is assigned to routinely complete this maintenance task. What is the potential result of this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The potential result of assigning a team member who set the hole locations accurately and efficiently to routinely complete this maintenance task is that it could lead to a lack of variety and potential burnout, reducing motivation over time.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Cheryl, Maggie and Rosa are all assigned to work in the bag room a few days a week. Maggie and Rosa are assigned to weekday shifts and Cheryl works the weekend. Both Maggie and Rosa have cleaned up the messy bag room upon return to work on Mondays. They do not understand why Cheryl is allowed to leave work without cleaning the bag room. What performance element needs to be addressed to resolve this issue?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To resolve the issue of Cheryl not cleaning the bag room, the performance element that needs to be addressed is "Performance Expectations," ensuring that all staff members understand their responsibilities.
+            
+            <div class="question-container">
+                <div class="question">Cheryl, Maggie and Rosa are all assigned to work in the bag room a few days a week. Maggie and Rosa are assigned to weekday shifts and Cheryl works the weekend. Both Maggie and Rosa have cleaned up the messy bag room upon return to work on Mondays. They do not understand why Cheryl is allowed to leave work without cleaning the bag room. What performance element needs to be addressed to resolve this issue?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To resolve the issue of Cheryl not cleaning the bag room, the performance element that needs to be addressed is "Performance Expectations," ensuring that all staff members understand their responsibilities.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can a manager promote team collaboration and efficiency?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A manager can promote team collaboration and efficiency by setting clear goals, fostering open communication, recognizing team achievements, defining team member roles, and creating a supportive environment where all team members can contribute their ideas.
+            
+            <div class="question-container">
+                <div class="question">How can a manager promote team collaboration and efficiency?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can promote team collaboration and efficiency by setting clear goals, fostering open communication, recognizing team achievements, defining team member roles, and creating a supportive environment where all team members can contribute their ideas.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="problem-solving" class="section">
-        <h2 class="section-title">Problem Solving and Feedback</h2>
-        
-        <div class="question-container">
-            <div class="question">A member attempts to return a golf shirt and demands a cash refund. The assistant professional insists on following the established policy for exchange. The member complains to the head professional, who then reprimands the assistant. Which element of the performance system is misaligned in this situation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                In the situation where the assistant professional is reprimanded for following the established policy, the element of the performance system that is misaligned is "Consequences," as the assistant is penalized for adhering to policy.
+        <h2 class="section-title collapsible-header">Problem Solving and Feedback <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">A member attempts to return a golf shirt and demands a cash refund. The assistant professional insists on following the established policy for exchange. The member complains to the head professional, who then reprimands the assistant. Which element of the performance system is misaligned in this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    In the situation where the assistant professional is reprimanded for following the established policy, the element of the performance system that is misaligned is "Consequences," as the assistant is penalized for adhering to policy.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">An employee is struggling to develop relationships with club members. The PGA General Manger should schedule this employee to shadow a top performer during their shifts. What type of feedback is shown in this example?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The type of feedback shown when scheduling an employee to shadow a top performer is "Developmental Feedback," as it provides an opportunity for learning and improvement.
+            
+            <div class="question-container">
+                <div class="question">An employee is struggling to develop relationships with club members. The PGA General Manger should schedule this employee to shadow a top performer during their shifts. What type of feedback is shown in this example?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The type of feedback shown when scheduling an employee to shadow a top performer is "Developmental Feedback," as it provides an opportunity for learning and improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the most effective approach to providing feedback to an employee who is not meeting performance expectations?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The most effective approach to providing feedback to an employee who is not meeting performance expectations is to address the issue promptly, be specific about the behavior that needs improvement, focus on performance rather than personality, offer guidance for improvement, and follow up regularly to monitor progress.
+            
+            <div class="question-container">
+                <div class="question">What is the most effective approach to providing feedback to an employee who is not meeting performance expectations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most effective approach to providing feedback to an employee who is not meeting performance expectations is to address the issue promptly, be specific about the behavior that needs improvement, focus on performance rather than personality, offer guidance for improvement, and follow up regularly to monitor progress.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What happens when a manager makes false assumptions?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When a manager makes false assumptions, it can lead to misdiagnosing the problem, resulting in ineffective solutions and potentially worsening the situation.
+            
+            <div class="question-container">
+                <div class="question">What happens when a manager makes false assumptions?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a manager makes false assumptions, it can lead to misdiagnosing the problem, resulting in ineffective solutions and potentially worsening the situation.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A staff member continues to struggle with customer service levels. The General Manager communicates a solution to the staff member. Which of the six actions for correcting performance problems has been omitted?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                If a staff member continues to struggle with customer service levels and the General Manager communicates a solution, the action omitted is "Involving the Performer" in the problem-solving process.
+            
+            <div class="question-container">
+                <div class="question">A staff member continues to struggle with customer service levels. The General Manager communicates a solution to the staff member. Which of the six actions for correcting performance problems has been omitted?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If a staff member continues to struggle with customer service levels and the General Manager communicates a solution, the action omitted is "Involving the Performer" in the problem-solving process.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can a manager increase the chances of finding a quick and mutually satisfying resolution to a performance problem without having to go through the multiple stages of the problem-solving process?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A manager can increase the chances of finding a quick and mutually satisfying resolution to a performance problem by addressing the issue early and involving the performer in finding a solution.
+            
+            <div class="question-container">
+                <div class="question">How can a manager increase the chances of finding a quick and mutually satisfying resolution to a performance problem without having to go through the multiple stages of the problem-solving process?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can increase the chances of finding a quick and mutually satisfying resolution to a performance problem by addressing the issue early and involving the performer in finding a solution.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What action increases the chances of finding a solution that satisfies all parties?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The action that increases the chances of finding a solution that satisfies all parties is to work through all issues to find a mutually agreeable solution rather than settling for an unhappy compromise.
+            
+            <div class="question-container">
+                <div class="question">What action increases the chances of finding a solution that satisfies all parties?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The action that increases the chances of finding a solution that satisfies all parties is to work through all issues to find a mutually agreeable solution rather than settling for an unhappy compromise.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can a manager identify if a performance problem continues to exist after an agreed upon course of action?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A manager can identify if a performance problem continues to exist after an agreed-upon course of action by establishing a clear follow-up process and monitoring the results to ensure the problem is resolved.
+            
+            <div class="question-container">
+                <div class="question">How can a manager identify if a performance problem continues to exist after an agreed upon course of action?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can identify if a performance problem continues to exist after an agreed-upon course of action by establishing a clear follow-up process and monitoring the results to ensure the problem is resolved.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">During a joint problem-solving discussion, what is the manager's role when identifying potential resolutions to a performance problem?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                During a joint problem-solving discussion, the manager's role is to facilitate the discussion, encourage the performer to share ideas, and work collaboratively to identify potential resolutions.
+            
+            <div class="question-container">
+                <div class="question">During a joint problem-solving discussion, what is the manager's role when identifying potential resolutions to a performance problem?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    During a joint problem-solving discussion, the manager's role is to facilitate the discussion, encourage the performer to share ideas, and work collaboratively to identify potential resolutions.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Why is the manager's involvement in the follow-up process during joint problem-solving important?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The manager's involvement in the follow-up process during joint problem-solving is important because it demonstrates commitment to resolving the issue and supports the performer in achieving the desired outcomes.
+            
+            <div class="question-container">
+                <div class="question">Why is the manager's involvement in the follow-up process during joint problem-solving important?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The manager's involvement in the follow-up process during joint problem-solving is important because it demonstrates commitment to resolving the issue and supports the performer in achieving the desired outcomes.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">During the joint problem-solving process, why is it important that the manager state the concern in relation to the expectations for the job or task?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                It is important for the manager to state the concern in relation to the expectations for the job or task to ensure clarity and focus on the specific performance gap that needs to be addressed.
+            
+            <div class="question-container">
+                <div class="question">During the joint problem-solving process, why is it important that the manager state the concern in relation to the expectations for the job or task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    It is important for the manager to state the concern in relation to the expectations for the job or task to ensure clarity and focus on the specific performance gap that needs to be addressed.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="leadership" class="section">
-        <h2 class="section-title">Leadership and Training</h2>
-        
-        <div class="question-container">
-            <div class="question">What is the most effective leadership approach when implementing a new performance management system with a team?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The most effective leadership approach when implementing a new performance management system with a team is to involve the team in the process, clearly communicate the purpose and benefits, provide adequate training, allow time for adjustment, and gather feedback for continuous improvement.
+        <h2 class="section-title collapsible-header">Leadership and Training <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the most effective leadership approach when implementing a new performance management system with a team?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most effective leadership approach when implementing a new performance management system with a team is to involve the team in the process, clearly communicate the purpose and benefits, provide adequate training, allow time for adjustment, and gather feedback for continuous improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How should a manager approach training for multi-generational staff members with different learning preferences?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A manager should approach training for multi-generational staff members with different learning preferences by utilizing a variety of training methods, offering flexibility in learning opportunities, recognizing individual strengths, creating mentorship opportunities, and regularly assessing training effectiveness.
+            
+            <div class="question-container">
+                <div class="question">How should a manager approach training for multi-generational staff members with different learning preferences?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager should approach training for multi-generational staff members with different learning preferences by utilizing a variety of training methods, offering flexibility in learning opportunities, recognizing individual strengths, creating mentorship opportunities, and regularly assessing training effectiveness.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the primary purpose of establishing standard operating procedures (SOPs) in a golf facility?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The primary purpose of establishing standard operating procedures (SOPs) in a golf facility is to ensure consistency in service delivery, maintain quality standards, facilitate employee training, improve efficiency, and support the achievement of overall business objectives.
+            
+            <div class="question-container">
+                <div class="question">What is the primary purpose of establishing standard operating procedures (SOPs) in a golf facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The primary purpose of establishing standard operating procedures (SOPs) in a golf facility is to ensure consistency in service delivery, maintain quality standards, facilitate employee training, improve efficiency, and support the achievement of overall business objectives.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="time-management" class="section">
-        <h2 class="section-title">Time Management</h2>
-        
-        <div class="question-container">
-            <div class="question">How can a golf facility manager effectively prioritize multiple competing tasks during peak season?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A golf facility manager can effectively prioritize multiple competing tasks during peak season by identifying tasks that directly impact customer satisfaction and revenue, delegating appropriately, leveraging technology for efficiency, creating structured schedules, and maintaining contingency plans for unexpected situations.
+        <h2 class="section-title collapsible-header">Time Management <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">How can a golf facility manager effectively prioritize multiple competing tasks during peak season?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A golf facility manager can effectively prioritize multiple competing tasks during peak season by identifying tasks that directly impact customer satisfaction and revenue, delegating appropriately, leveraging technology for efficiency, creating structured schedules, and maintaining contingency plans for unexpected situations.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe is to have a private conversation to identify any obstacles or challenges, assess whether the timeframe is realistic, provide additional training if needed, establish clear expectations and consequences, and follow up with regular feedback.
+            
+            <div class="question-container">
+                <div class="question">What is the recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe is to have a private conversation to identify any obstacles or challenges, assess whether the timeframe is realistic, provide additional training if needed, establish clear expectations and consequences, and follow up with regular feedback.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can technology be effectively utilized to improve time management in daily operations?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Technology can be effectively utilized to improve time management in daily operations through automation of routine tasks, implementation of scheduling and tee time management systems, inventory tracking, digital communication tools, and analytics for strategic planning.
+            
+            <div class="question-container">
+                <div class="question">How can technology be effectively utilized to improve time management in daily operations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Technology can be effectively utilized to improve time management in daily operations through automation of routine tasks, implementation of scheduling and tee time management systems, inventory tracking, digital communication tools, and analytics for strategic planning.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="food-beverage" class="section">
-        <h2 class="section-title">Food and Beverage Operations</h2>
-        
-        <div class="question-container">
-            <div class="question">What is the primary consequential benefit of having a well-run and successful food and beverage operation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The primary consequential benefit of having a well-run and successful food and beverage operation is that it can significantly contribute to the facility's overall revenue and profitability, enhancing customer satisfaction and encouraging repeat business.
+        <h2 class="section-title collapsible-header">Food and Beverage Operations <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the primary consequential benefit of having a well-run and successful food and beverage operation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The primary consequential benefit of having a well-run and successful food and beverage operation is that it can significantly contribute to the facility's overall revenue and profitability, enhancing customer satisfaction and encouraging repeat business.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">According to the course manual, what can often distinguish a profitable facility?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                According to the course manual, a profitable facility can often be distinguished by its ability to align its food and beverage operations with its overall operational goals, effectively meeting customer expectations and managing costs.
+            
+            <div class="question-container">
+                <div class="question">According to the course manual, what can often distinguish a profitable facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    According to the course manual, a profitable facility can often be distinguished by its ability to align its food and beverage operations with its overall operational goals, effectively meeting customer expectations and managing costs.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What department can often provide substantial revenue?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The food and beverage department can often provide substantial revenue for a facility.
+            
+            <div class="question-container">
+                <div class="question">What department can often provide substantial revenue?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The food and beverage department can often provide substantial revenue for a facility.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What can often distinguish a facility as a complete destination?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A facility can often be distinguished as a complete destination by offering a successful food and beverage operation that complements the quality and vision of the golf operation.
+            
+            <div class="question-container">
+                <div class="question">What can often distinguish a facility as a complete destination?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A facility can often be distinguished as a complete destination by offering a successful food and beverage operation that complements the quality and vision of the golf operation.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">For which type of private facility is profitability the primary operational goal?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                For private facilities where service is not the primary goal, profitability can be the primary operational goal, such as in facilities owned by management companies.
+            
+            <div class="question-container">
+                <div class="question">For which type of private facility is profitability the primary operational goal?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    For private facilities where service is not the primary goal, profitability can be the primary operational goal, such as in facilities owned by management companies.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">At which type of private golf facility is the profitability of the food and beverage operation important?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                At private golf facilities where the food and beverage operation is expected to contribute to the overall financial success, profitability is important.
+            
+            <div class="question-container">
+                <div class="question">At which type of private golf facility is the profitability of the food and beverage operation important?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    At private golf facilities where the food and beverage operation is expected to contribute to the overall financial success, profitability is important.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">For which type of private facility is service the primary operational goal?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                For private equity facilities, service is the primary operational goal, focusing on providing personal attention and high-quality experiences for members.
+            
+            <div class="question-container">
+                <div class="question">For which type of private facility is service the primary operational goal?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    For private equity facilities, service is the primary operational goal, focusing on providing personal attention and high-quality experiences for members.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Which type of golf facility might only offer counter and carryout service to maximize profitability?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Public golf facilities might only offer counter and carryout service to maximize profitability by keeping costs low and providing quick service.
+            
+            <div class="question-container">
+                <div class="question">Which type of golf facility might only offer counter and carryout service to maximize profitability?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Public golf facilities might only offer counter and carryout service to maximize profitability by keeping costs low and providing quick service.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the easiest food and beverage service to offer at a facility?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The easiest food and beverage service to offer at a facility is on-course concessions, as they require minimal equipment and staff.
+            
+            <div class="question-container">
+                <div class="question">What is the easiest food and beverage service to offer at a facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The easiest food and beverage service to offer at a facility is on-course concessions, as they require minimal equipment and staff.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the least expensive type of food and beverage service that a facility can offer?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The least expensive type of food and beverage service that a facility can offer is on-course concessions, which involve selling pre-made and packaged items.
+            
+            <div class="question-container">
+                <div class="question">What is the least expensive type of food and beverage service that a facility can offer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The least expensive type of food and beverage service that a facility can offer is on-course concessions, which involve selling pre-made and packaged items.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Describe the type of service offered by on-course concessions.</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                On-course concessions offer quick service with relatively inexpensive pre-made and packaged food items, such as sandwiches, snacks, and beverages, to avoid delays in play.
+            
+            <div class="question-container">
+                <div class="question">Describe the type of service offered by on-course concessions.</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    On-course concessions offer quick service with relatively inexpensive pre-made and packaged food items, such as sandwiches, snacks, and beverages, to avoid delays in play.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What must be identified before the facility's level of food and beverage service can be determined?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Before determining the facility's level of food and beverage service, the operational goals and customer expectations must be identified.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">The staffing levels required to meet customer's expectations are highest in which type of service?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The staffing levels required to meet customer expectations are highest in formal fine dining services, where high-quality service and attention to detail are essential.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Two local restaurants get exactly the same food item from the purveyor but produce two different entrees featuring this item. What term describes this distinction?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The term that describes the distinction between two local restaurants producing different entrees from the same food item is "menu differentiation" or "culinary creativity."
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the primary way in which the skills and experiences associated with overseeing the food and beverage operation enhance the golf professional's career?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The primary way in which the skills and experiences associated with overseeing the food and beverage operation enhance the golf professional's career is by broadening their understanding of facility management and increasing their value to the facility.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">The Food and Beverage Manager uses internal control to keep the operation functioning smoothly with safeguards. What are its characteristics?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The characteristics of internal control used by the Food and Beverage Manager to keep the operation functioning smoothly include establishing procedures, monitoring compliance, and safeguarding assets.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the characteristics of internal control that the Food and Beverage Manager uses to keep the operation functioning smoothly?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Internal control characteristics include procedures for inventory management, cost control, and ensuring compliance with health and safety regulations.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the definition of food cost control?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Food cost control is defined as the process of managing and regulating the costs associated with purchasing and using food products to ensure profitability.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What two items are used to determine the standard cost of one portion produced from a standard recipe?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The two items used to determine the standard cost of one portion produced from a standard recipe are the cost of ingredients and the portion size.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the meaning of "food cost control"?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The meaning of "food cost control" is the practice of managing food expenses to maintain profitability while ensuring quality and customer satisfaction.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Where is the food and beverage service most vulnerable to losing profits due to excessive costs?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The food and beverage service is most vulnerable to losing profits due to excessive costs in areas such as inventory management, portion control, and waste management.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the most important guideline governing the selection and price of a facility's menu?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The most important guideline governing the selection and price of a facility's menu is ensuring that the menu items meet customer expectations while allowing the facility to cover costs and achieve budgeted profits.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">If the cost of ingredients for a buffet entrée that yields fifty portions is $225.00, and the food cost percentage is 30%, what would be the per-portion selling price of the entrée?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To calculate the per-portion selling price of the buffet entrée, use the formula: Selling Price = (Cost of Ingredients / Number of Portions) / Food Cost Percentage. Therefore, Selling Price = ($225.00 / 50) / 0.30 = $15.00 per portion.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Placing incoming items behind older items is an example of which food storage method?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Placing incoming items behind older items is an example of the First-In, First-Out (FIFO) food storage method.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is an example of gathering market information?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An example of gathering market information is conducting customer surveys to understand preferences and expectations.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the operational goals of different types of facilities' food and beverage operations?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The operational goals of different types of facilities' food and beverage operations vary. For example, private equity facilities may focus on high-quality service and breaking even, while public facilities may aim to provide affordable options and make a profit.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How should a facility begin their research to determine the most relevant type and level of food and beverage service they could provide?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A facility should begin their research by analyzing customer demographics, preferences, and market trends to determine the most relevant type and level of food and beverage service.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the predominant reason a public facility is likely to offer inexpensive food and beverage products?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A public facility is likely to offer inexpensive food and beverage products to attract a broad customer base and remain competitive.
-            </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should be the relationship between labor costs and customer expectations in a food and beverage operation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The relationship between labor costs and customer expectations should be balanced to ensure efficient service delivery while meeting customer satisfaction and maintaining profitability.
+            
+            <div class="question-container">
+                <div class="question">What must be identified before the facility's level of food and beverage service can be determined?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Before determining the facility's level of food and beverage service, the operational goals and customer expectations must be identified.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="mental-game" class="section">
-        <h2 class="section-title">Mental Game and Psychology</h2>
-        
-        <div class="question-container">
-            <div class="question">What is the cognitive rehearsal of a physical activity in the absence of any observable muscular movement?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Cognitive rehearsal of a physical activity without observable movement is known as mental practice.
+        <h2 class="section-title collapsible-header">Mental Game and Psychology <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the cognitive rehearsal of a physical activity in the absence of any observable muscular movement?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Cognitive rehearsal of a physical activity without observable movement is known as mental practice.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a conscious experience in which a player uses all her senses to create or recreate the execution of a motor skill in the player's mind?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A conscious experience using all senses to create or recreate a motor skill is called visualization or imagery.
+            
+            <div class="question-container">
+                <div class="question">What is a conscious experience in which a player uses all her senses to create or recreate the execution of a motor skill in the player's mind?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A conscious experience using all senses to create or recreate a motor skill is called visualization or imagery.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A student relates primarily to which type of imagery if she is unable to learn from a face-on video of her swing?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A student relates to kinesthetic imagery if unable to learn from a face-on video.
+            
+            <div class="question-container">
+                <div class="question">A student relates primarily to which type of imagery if she is unable to learn from a face-on video of her swing?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A student relates to kinesthetic imagery if unable to learn from a face-on video.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A student relates primarily to which type of imagery if she is able to learn from a face-on video of her swing?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A student relates to visual imagery if able to learn from a face-on video.
+            
+            <div class="question-container">
+                <div class="question">A student relates primarily to which type of imagery if she is able to learn from a face-on video of her swing?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A student relates to visual imagery if able to learn from a face-on video.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Does cognitively rehearsing procedural skills at a faster rate before physically performing them interfere with the benefits of mental practice?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                No, rehearsing procedural skills at a faster rate does not interfere with mental practice benefits.
+            
+            <div class="question-container">
+                <div class="question">Does cognitively rehearsing procedural skills at a faster rate before physically performing them interfere with the benefits of mental practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    No, rehearsing procedural skills at a faster rate does not interfere with mental practice benefits.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the definition of modeling when used for teaching and coaching?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Modeling in teaching and coaching involves demonstrating a skill for learners to imitate.
+            
+            <div class="question-container">
+                <div class="question">What is the definition of modeling when used for teaching and coaching?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Modeling in teaching and coaching involves demonstrating a skill for learners to imitate.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">When is mental practice and motor imagery most effective?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Mental practice and motor imagery are most effective when combined with physical practice.
+            
+            <div class="question-container">
+                <div class="question">When is mental practice and motor imagery most effective?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice and motor imagery are most effective when combined with physical practice.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the best way for beginners to improve shot performance?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Beginners can improve shot performance by focusing on basic fundamentals and consistent practice.
+            
+            <div class="question-container">
+                <div class="question">What is the best way for beginners to improve shot performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Beginners can improve shot performance by focusing on basic fundamentals and consistent practice.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What makes "cognitive hypothesis" an effective learning tool?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The cognitive hypothesis is effective because it involves understanding the underlying principles of a skill.
+            
+            <div class="question-container">
+                <div class="question">What makes "cognitive hypothesis" an effective learning tool?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The cognitive hypothesis is effective because it involves understanding the underlying principles of a skill.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Which condition enhances the benefits of mental practice?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Mental practice is enhanced by a quiet environment and focused attention.
+            
+            <div class="question-container">
+                <div class="question">Which condition enhances the benefits of mental practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice is enhanced by a quiet environment and focused attention.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Based on research, at what speed should a skill be mentally rehearsed prior to actual performance?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Skills should be mentally rehearsed at a realistic speed for optimal performance.
+            
+            <div class="question-container">
+                <div class="question">Based on research, at what speed should a skill be mentally rehearsed prior to actual performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Skills should be mentally rehearsed at a realistic speed for optimal performance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is an effective means of helping a beginner to use motor imagery to improve performance?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An effective means is guided imagery sessions with a coach.
+            
+            <div class="question-container">
+                <div class="question">What is an effective means of helping a beginner to use motor imagery to improve performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An effective means is guided imagery sessions with a coach.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What situation justifies substituting mental practice for physical practice?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Mental practice can substitute physical practice when physical limitations prevent actual practice.
+            
+            <div class="question-container">
+                <div class="question">What situation justifies substituting mental practice for physical practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice can substitute physical practice when physical limitations prevent actual practice.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">According to research, what will optimize performance when combining mental and physical practice?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Combining mental and physical practice optimizes performance by reinforcing skills.
+            
+            <div class="question-container">
+                <div class="question">According to research, what will optimize performance when combining mental and physical practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Combining mental and physical practice optimizes performance by reinforcing skills.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the influence of a previous skill on the current skill to be learned regardless of whether the influence is positive or negative?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The influence of a previous skill on a current skill is known as transfer of learning.
+            
+            <div class="question-container">
+                <div class="question">What is the influence of a previous skill on the current skill to be learned regardless of whether the influence is positive or negative?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The influence of a previous skill on a current skill is known as transfer of learning.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Addison has acquired a new student who previously played ice hockey. During the opening interview, Addison asks questions to find out ways he can take advantage of previous learning, what skills to teach, and what order to teach them. This is an example of what learning transfer concept?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                This is an example of positive transfer, utilizing previous skills to enhance new learning.
+            
+            <div class="question-container">
+                <div class="question">Addison has acquired a new student who previously played ice hockey. During the opening interview, Addison asks questions to find out ways he can take advantage of previous learning, what skills to teach, and what order to teach them. This is an example of what learning transfer concept?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    This is an example of positive transfer, utilizing previous skills to enhance new learning.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What determines the transfer of golf skill learning?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Transfer of golf skill learning is determined by similarity between practice and performance conditions.
+            
+            <div class="question-container">
+                <div class="question">What determines the transfer of golf skill learning?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Transfer of golf skill learning is determined by similarity between practice and performance conditions.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What conditions lead to greater learning transfer?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Greater learning transfer occurs with similar practice and performance conditions.
+            
+            <div class="question-container">
+                <div class="question">What conditions lead to greater learning transfer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Greater learning transfer occurs with similar practice and performance conditions.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What term is used to describe transferring a learned skill of a 20-foot chip onto a practice green to a 50-foot chip on the same practice green?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                This is called near transfer, applying a learned skill to a similar situation.
+            
+            <div class="question-container">
+                <div class="question">What term is used to describe transferring a learned skill of a 20-foot chip onto a practice green to a 50-foot chip on the same practice green?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    This is called near transfer, applying a learned skill to a similar situation.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of transfer likely occurs when applying the skill of a 20-foot chip learned in practice to a situation calling for a 20-foot chip in a club championship tournament?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Positive transfer likely occurs when applying a practiced skill in a competitive setting.
+            
+            <div class="question-container">
+                <div class="question">What type of transfer likely occurs when applying the skill of a 20-foot chip learned in practice to a situation calling for a 20-foot chip in a club championship tournament?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Positive transfer likely occurs when applying a practiced skill in a competitive setting.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What term is used to describe learning the skill of putting on a practice green and effectively transferring to various greens on the golf course?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                This is known as far transfer, applying a learned skill to different contexts.
+            
+            <div class="question-container">
+                <div class="question">What term is used to describe learning the skill of putting on a practice green and effectively transferring to various greens on the golf course?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    This is known as far transfer, applying a learned skill to different contexts.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How is the "transfer effect" most likely to influence a situation where a player with an over-the-top down swing is being taught to drop the club below the shaft plane?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The transfer effect may cause initial difficulty as the player adjusts to new swing mechanics.
+            
+            <div class="question-container">
+                <div class="question">How is the "transfer effect" most likely to influence a situation where a player with an over-the-top down swing is being taught to drop the club below the shaft plane?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The transfer effect may cause initial difficulty as the player adjusts to new swing mechanics.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the most important shot in golf?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The most important shot in golf is often considered to be the next one.
+            
+            <div class="question-container">
+                <div class="question">What is the most important shot in golf?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most important shot in golf is often considered to be the next one.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is one way that players can achieve realistic goals?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Players can achieve realistic goals by setting specific, measurable, achievable, relevant, and time-bound (SMART) goals.
+            
+            <div class="question-container">
+                <div class="question">What is one way that players can achieve realistic goals?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Players can achieve realistic goals by setting specific, measurable, achievable, relevant, and time-bound (SMART) goals.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A player sees water on the left side of the hole and then begins to visualize a fade for the tee shot. What is the player focusing on?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The player is focusing on shaping their shot to avoid the hazard.
+            
+            <div class="question-container">
+                <div class="question">A player sees water on the left side of the hole and then begins to visualize a fade for the tee shot. What is the player focusing on?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The player is focusing on shaping their shot to avoid the hazard.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can a player play smart?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Playing smart involves making strategic decisions to minimize risks and maximize scoring opportunities.
+            
+            <div class="question-container">
+                <div class="question">How can a player play smart?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Playing smart involves making strategic decisions to minimize risks and maximize scoring opportunities.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a mental game problem associated with confident play?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A mental game problem associated with confident play is overconfidence, which can lead to taking unnecessary risks.
+            
+            <div class="question-container">
+                <div class="question">What is a mental game problem associated with confident play?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A mental game problem associated with confident play is overconfidence, which can lead to taking unnecessary risks.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">The director of golf and his two managers are on a golf outing in which the managers are scoring better. What is the mental game danger posed by this situation?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The mental game danger is allowing ego or pride to interfere with performance.
+            
+            <div class="question-container">
+                <div class="question">The director of golf and his two managers are on a golf outing in which the managers are scoring better. What is the mental game danger posed by this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The mental game danger is allowing ego or pride to interfere with performance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the reason that players should accept poor shot outcomes with the good ones?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Players should accept poor shot outcomes with the good ones to maintain a balanced perspective.
+            
+            <div class="question-container">
+                <div class="question">What is the reason that players should accept poor shot outcomes with the good ones?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Players should accept poor shot outcomes with the good ones to maintain a balanced perspective.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What does positive self-talk accomplish?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Positive self-talk helps reinforce confidence, focus, and a positive mindset.
+            
+            <div class="question-container">
+                <div class="question">What does positive self-talk accomplish?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Positive self-talk helps reinforce confidence, focus, and a positive mindset.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Cheryl is ahead at the final hole of her club's stroke play championship. She takes extra time surveying the green, but three putts and loses the event by one stroke. What most likely happened?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Cheryl likely became too focused on the outcome and let nerves or pressure affect her putting, leading to a three-putt.
+            
+            <div class="question-container">
+                <div class="question">Cheryl is ahead at the final hole of her club's stroke play championship. She takes extra time surveying the green, but three putts and loses the event by one stroke. What most likely happened?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Cheryl likely became too focused on the outcome and let nerves or pressure affect her putting, leading to a three-putt.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the benefits of an effective pre-shot routine?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The benefits of an effective pre-shot routine include improved focus, consistency, and confidence, helping players to mentally prepare for the shot.
+            
+            <div class="question-container">
+                <div class="question">What are the benefits of an effective pre-shot routine?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The benefits of an effective pre-shot routine include improved focus, consistency, and confidence, helping players to mentally prepare for the shot.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What do effective pre-shot routines help players to focus their attention on?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Effective pre-shot routines help players focus their attention on the process of playing the game rather than the outcome.
+            
+            <div class="question-container">
+                <div class="question">What do effective pre-shot routines help players to focus their attention on?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Effective pre-shot routines help players focus their attention on the process of playing the game rather than the outcome.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is one purpose of a practice swing taken during a pre-shot routine?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                One purpose of a practice swing taken during a pre-shot routine is to help the player feel the swing they intend to make and build confidence.
+            
+            <div class="question-container">
+                <div class="question">What is one purpose of a practice swing taken during a pre-shot routine?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    One purpose of a practice swing taken during a pre-shot routine is to help the player feel the swing they intend to make and build confidence.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What can golfers do to get out of their own way?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Golfers can get out of their own way by developing effective pre- and post-shot routines and focusing on the process rather than the outcome.
+            
+            <div class="question-container">
+                <div class="question">What can golfers do to get out of their own way?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Golfers can get out of their own way by developing effective pre- and post-shot routines and focusing on the process rather than the outcome.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="teaching-coaching" class="section">
-        <h2 class="section-title">Teaching and Coaching</h2>
-        
-        <div class="question-container">
-            <div class="question">What type of player is best served by individual lessons?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Individual lessons are best served for players who need personalized attention and specific feedback on their unique swing and game.
+        <h2 class="section-title collapsible-header">Teaching and Coaching <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What type of player is best served by individual lessons?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Individual lessons are best served for players who need personalized attention and specific feedback on their unique swing and game.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a group lesson advantage?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A group lesson advantage is the opportunity for social interaction and learning from observing others.
+            
+            <div class="question-container">
+                <div class="question">What is a group lesson advantage?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A group lesson advantage is the opportunity for social interaction and learning from observing others.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the recommended practice regarding writing out a complete lesson plan before beginning golf instruction?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The recommended practice is to write out a complete lesson plan before beginning golf instruction to ensure a structured and effective session.
+            
+            <div class="question-container">
+                <div class="question">What is the recommended practice regarding writing out a complete lesson plan before beginning golf instruction?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The recommended practice is to write out a complete lesson plan before beginning golf instruction to ensure a structured and effective session.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the correct planning assumption behind a skill development sequence for individual lessons?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The correct planning assumption behind a skill development sequence for individual lessons is to tailor the sequence to the player's specific needs and goals.
+            
+            <div class="question-container">
+                <div class="question">What is the correct planning assumption behind a skill development sequence for individual lessons?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The correct planning assumption behind a skill development sequence for individual lessons is to tailor the sequence to the player's specific needs and goals.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How should teachers respond to lessons that are getting off track?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Teachers should respond to lessons that are getting off track by being flexible and adjusting the lesson plan to refocus on the student's needs.
+            
+            <div class="question-container">
+                <div class="question">How should teachers respond to lessons that are getting off track?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Teachers should respond to lessons that are getting off track by being flexible and adjusting the lesson plan to refocus on the student's needs.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Why should one have contingency plans?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Contingency plans are important to address unexpected challenges and ensure the lesson remains productive and focused.
+            
+            <div class="question-container">
+                <div class="question">Why should one have contingency plans?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Contingency plans are important to address unexpected challenges and ensure the lesson remains productive and focused.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should be included in long-term player development planning?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Long-term player development planning should include goals, milestones, and strategies for continuous improvement and skill development.
+            
+            <div class="question-container">
+                <div class="question">What should be included in long-term player development planning?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Long-term player development planning should include goals, milestones, and strategies for continuous improvement and skill development.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the purpose of golf instruction from the standpoint of long-term lesson planning?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The purpose of golf instruction from the standpoint of long-term lesson planning is to develop the player's skills, confidence, and enjoyment of the game.
+            
+            <div class="question-container">
+                <div class="question">What is the purpose of golf instruction from the standpoint of long-term lesson planning?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The purpose of golf instruction from the standpoint of long-term lesson planning is to develop the player's skills, confidence, and enjoyment of the game.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the difference between a lesson plan and a long-term developmental plan?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A lesson plan focuses on short-term objectives for a specific session, while a long-term developmental plan outlines the player's growth over time.
+            
+            <div class="question-container">
+                <div class="question">What is the difference between a lesson plan and a long-term developmental plan?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A lesson plan focuses on short-term objectives for a specific session, while a long-term developmental plan outlines the player's growth over time.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How does the PGA define the elite player for purposes of developing a long-term player development plan?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The PGA defines the elite player for purposes of developing a long-term player development plan as one who competes at a high level and seeks continuous improvement.
+            
+            <div class="question-container">
+                <div class="question">How does the PGA define the elite player for purposes of developing a long-term player development plan?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The PGA defines the elite player for purposes of developing a long-term player development plan as one who competes at a high level and seeks continuous improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the two guidelines that define both the purpose and the activities of a junior golf development program?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The two guidelines that define both the purpose and the activities of a junior golf development program are skill development and fostering a love for the game.
+            
+            <div class="question-container">
+                <div class="question">What are the two guidelines that define both the purpose and the activities of a junior golf development program?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The two guidelines that define both the purpose and the activities of a junior golf development program are skill development and fostering a love for the game.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is one misconception regarding who is best qualified to teach people with a disability or injury to play golf?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                One misconception is that only specialized instructors can teach people with a disability or injury to play golf.
+            
+            <div class="question-container">
+                <div class="question">What is one misconception regarding who is best qualified to teach people with a disability or injury to play golf?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    One misconception is that only specialized instructors can teach people with a disability or injury to play golf.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is often challenged when teaching a player with a disability or injury?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When teaching a player with a disability or injury, the instructor's creativity and adaptability are often challenged.
+            
+            <div class="question-container">
+                <div class="question">What is often challenged when teaching a player with a disability or injury?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When teaching a player with a disability or injury, the instructor's creativity and adaptability are often challenged.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the best course of action if a teacher is unsure of what to say to a player who has a disability or injury?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                If a teacher is unsure of what to say to a player who has a disability or injury, the best course of action is to ask the player about their needs and preferences.
+            
+            <div class="question-container">
+                <div class="question">What is the best course of action if a teacher is unsure of what to say to a player who has a disability or injury?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If a teacher is unsure of what to say to a player who has a disability or injury, the best course of action is to ask the player about their needs and preferences.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should an instructor do when teaching someone who has lost a limb?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When teaching someone who has lost a limb, the instructor should focus on adapting techniques and equipment to suit the player's abilities.
+            
+            <div class="question-container">
+                <div class="question">What should an instructor do when teaching someone who has lost a limb?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When teaching someone who has lost a limb, the instructor should focus on adapting techniques and equipment to suit the player's abilities.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">When teaching a player with a disability, which topics should be avoided during an opening interview?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                During an opening interview with a player who has a disability, topics to avoid include assumptions about their limitations or abilities.
+            
+            <div class="question-container">
+                <div class="question">When teaching a player with a disability, which topics should be avoided during an opening interview?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    During an opening interview with a player who has a disability, topics to avoid include assumptions about their limitations or abilities.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should a teacher do when teaching a player who has a disability?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When teaching a player who has a disability, the teacher should focus on the player's abilities and adapt instruction to meet their needs.
+            
+            <div class="question-container">
+                <div class="question">What should a teacher do when teaching a player who has a disability?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When teaching a player who has a disability, the teacher should focus on the player's abilities and adapt instruction to meet their needs.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What does technology help the instructor to identify?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Technology helps the instructor to identify specific swing mechanics and areas for improvement.
+            
+            <div class="question-container">
+                <div class="question">What does technology help the instructor to identify?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Technology helps the instructor to identify specific swing mechanics and areas for improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How does a LPGA Tour player's angle of descent compare to that of the average PGA Tour player?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An LPGA Tour player's angle of descent is typically shallower compared to that of the average PGA Tour player.
+            
+            <div class="question-container">
+                <div class="question">How does a LPGA Tour player's angle of descent compare to that of the average PGA Tour player?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An LPGA Tour player's angle of descent is typically shallower compared to that of the average PGA Tour player.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Should technology be used to help develop one model swing for all players?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Technology should not be used to develop one model swing for all players, as each player has unique characteristics and needs.
+            
+            <div class="question-container">
+                <div class="question">Should technology be used to help develop one model swing for all players?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Technology should not be used to develop one model swing for all players, as each player has unique characteristics and needs.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should be established before introducing technology into the learning environment with a beginning golfer?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Before introducing technology into the learning environment with a beginning golfer, the instructor should establish the student's goals and comfort level with technology.
+            
+            <div class="question-container">
+                <div class="question">What should be established before introducing technology into the learning environment with a beginning golfer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Before introducing technology into the learning environment with a beginning golfer, the instructor should establish the student's goals and comfort level with technology.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of feedback does technology provide during practice?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Technology provides objective feedback during practice, helping players understand their performance and areas for improvement.
+            
+            <div class="question-container">
+                <div class="question">What type of feedback does technology provide during practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Technology provides objective feedback during practice, helping players understand their performance and areas for improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can a teacher use technology to help a golfer identify the root cause of losing clubhead lag too soon?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A teacher can use technology to help a golfer identify the root cause of losing clubhead lag too soon by analyzing swing data and video.
+            
+            <div class="question-container">
+                <div class="question">How can a teacher use technology to help a golfer identify the root cause of losing clubhead lag too soon?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A teacher can use technology to help a golfer identify the root cause of losing clubhead lag too soon by analyzing swing data and video.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the typical result of using a camera that films with a slower frame rate?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The typical result of using a camera that films with a slower frame rate is less detailed analysis of fast movements, such as the golf swing.
+            
+            <div class="question-container">
+                <div class="question">What is the typical result of using a camera that films with a slower frame rate?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The typical result of using a camera that films with a slower frame rate is less detailed analysis of fast movements, such as the golf swing.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">When recording golf swings from a down the line perspective using 2D video, what will the club appear to do from a camera angle that is lower and more behind the player?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When recording golf swings from a down-the-line perspective using 2D video, the club will appear to move more vertically from a camera angle that is lower and more behind the player.
+            
+            <div class="question-container">
+                <div class="question">When recording golf swings from a down the line perspective using 2D video, what will the club appear to do from a camera angle that is lower and more behind the player?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When recording golf swings from a down-the-line perspective using 2D video, the club will appear to move more vertically from a camera angle that is lower and more behind the player.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">When putting, from what distance will a one-degree direction change hit the edge of the hole instead of the center of the hole?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When putting, a one-degree direction change will hit the edge of the hole instead of the center from a distance of approximately 10 feet.
+            
+            <div class="question-container">
+                <div class="question">When putting, from what distance will a one-degree direction change hit the edge of the hole instead of the center of the hole?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When putting, a one-degree direction change will hit the edge of the hole instead of the center from a distance of approximately 10 feet.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">According to the course manual, what data describes the launch of the ball?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                According to the course manual, launch data describes the initial speed, angle, and spin of the ball as it leaves the clubface.
+            
+            <div class="question-container">
+                <div class="question">According to the course manual, what data describes the launch of the ball?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    According to the course manual, launch data describes the initial speed, angle, and spin of the ball as it leaves the clubface.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of teachers experiment with new ideas and practices?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Teachers who experiment with new ideas and practices are often innovative and open to continuous improvement.
+            
+            <div class="question-container">
+                <div class="question">What type of teachers experiment with new ideas and practices?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Teachers who experiment with new ideas and practices are often innovative and open to continuous improvement.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How often should professionals engage in reflection of their own teaching skills?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Professionals should engage in reflection of their own teaching skills regularly to ensure ongoing development and effectiveness.
+            
+            <div class="question-container">
+                <div class="question">How often should professionals engage in reflection of their own teaching skills?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Professionals should engage in reflection of their own teaching skills regularly to ensure ongoing development and effectiveness.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="club-fitting" class="section">
-        <h2 class="section-title">Club Fitting and Equipment</h2>
-        
-        <div class="question-container">
-            <div class="question">What is an acceptable practice when a shaft has re-useable old buildup tape already on it?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                If the build-up tape is reusable and will produce the correct volume of build-up to achieve the desired grip size, it is acceptable to leave it on and reapply new double-sided grip tape over it.
+        <h2 class="section-title collapsible-header">Club Fitting and Equipment <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is an acceptable practice when a shaft has re-useable old buildup tape already on it?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If the build-up tape is reusable and will produce the correct volume of build-up to achieve the desired grip size, it is acceptable to leave it on and reapply new double-sided grip tape over it.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Does a double-sided tape count as a layer of build-up tape?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Double-sided tape does not count as a layer of build-up tape. It is a constant in the grip installation process and is part of the overall volume of the grip size.
+            
+            <div class="question-container">
+                <div class="question">Does a double-sided tape count as a layer of build-up tape?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Double-sided tape does not count as a layer of build-up tape. It is a constant in the grip installation process and is part of the overall volume of the grip size.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the standard size of a men's grip?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The standard size of a men's grip is typically around .900" to .915" in diameter, but this can vary based on personal preference and hand size.
+            
+            <div class="question-container">
+                <div class="question">What is the standard size of a men's grip?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The standard size of a men's grip is typically around .900" to .915" in diameter, but this can vary based on personal preference and hand size.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What grip material can be used to create an undersized grip?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To create an undersized grip, rubber and most dual durometer grips can be stretched about 3/4" past their original length. However, this process does not work for cord or polymer grips.
+            
+            <div class="question-container">
+                <div class="question">What grip material can be used to create an undersized grip?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To create an undersized grip, rubber and most dual durometer grips can be stretched about 3/4" past their original length. However, this process does not work for cord or polymer grips.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the most common means of removing old build-up tape from the shaft?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The most common means of removing old build-up tape from the shaft is to peel it off by hand. If the tape is stubborn, mineral spirits, a heat gun, or a grip knife can be used to assist in removal.
+            
+            <div class="question-container">
+                <div class="question">What is the most common means of removing old build-up tape from the shaft?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most common means of removing old build-up tape from the shaft is to peel it off by hand. If the tape is stubborn, mineral spirits, a heat gun, or a grip knife can be used to assist in removal.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How is the core size of a replacement grip determined?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The core size of a replacement grip is determined by matching it to the shaft butt diameter. This ensures a proper fit and performance.
+            
+            <div class="question-container">
+                <div class="question">How is the core size of a replacement grip determined?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The core size of a replacement grip is determined by matching it to the shaft butt diameter. This ensures a proper fit and performance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the benefit of properly matched shafts?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The benefit of properly matched shafts is that they provide consistent performance, feel, and feedback, which can enhance a player's confidence and ability to execute shots.
+            
+            <div class="question-container">
+                <div class="question">What is the benefit of properly matched shafts?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The benefit of properly matched shafts is that they provide consistent performance, feel, and feedback, which can enhance a player's confidence and ability to execute shots.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will be the result of replacing a grip with one that is heavier than the original?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Replacing a grip with one that is heavier than the original will increase the swing weight of the club, making the head feel lighter during the swing.
+            
+            <div class="question-container">
+                <div class="question">What will be the result of replacing a grip with one that is heavier than the original?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Replacing a grip with one that is heavier than the original will increase the swing weight of the club, making the head feel lighter during the swing.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will be the result of replacing a grip with one that is lighter than the original?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Replacing a grip with one that is lighter than the original will decrease the swing weight of the club, making the head feel heavier during the swing.
+            
+            <div class="question-container">
+                <div class="question">What will be the result of replacing a grip with one that is lighter than the original?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Replacing a grip with one that is lighter than the original will decrease the swing weight of the club, making the head feel heavier during the swing.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How does the total weight of a golf club affect a player?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The total weight of a golf club affects a player by influencing their swing speed, control, and overall feel of the club during the swing.
+            
+            <div class="question-container">
+                <div class="question">How does the total weight of a golf club affect a player?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The total weight of a golf club affects a player by influencing their swing speed, control, and overall feel of the club during the swing.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of shafts require butt trimming?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Parallel tip shafts typically require butt trimming to achieve the desired length and flex characteristics.
+            
+            <div class="question-container">
+                <div class="question">What type of shafts require butt trimming?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Parallel tip shafts typically require butt trimming to achieve the desired length and flex characteristics.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the two operative considerations when replacing a shaft?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The two operative considerations when replacing a shaft are the shaft's flex and weight, as these affect the club's performance and feel.
+            
+            <div class="question-container">
+                <div class="question">What are the two operative considerations when replacing a shaft?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The two operative considerations when replacing a shaft are the shaft's flex and weight, as these affect the club's performance and feel.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the first step in selecting a proper replacement shaft?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The first step in selecting a proper replacement shaft is to assess the player's swing characteristics and preferences to determine the appropriate flex, weight, and material.
+            
+            <div class="question-container">
+                <div class="question">What is the first step in selecting a proper replacement shaft?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The first step in selecting a proper replacement shaft is to assess the player's swing characteristics and preferences to determine the appropriate flex, weight, and material.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the best way to prepare a graphite replacement shaft for insertion into a hosel?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The best way to prepare a graphite replacement shaft for insertion into a hosel is to use a graphite shaft puller to remove the old shaft and ensure the new shaft is properly trimmed and prepped.
+            
+            <div class="question-container">
+                <div class="question">What is the best way to prepare a graphite replacement shaft for insertion into a hosel?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The best way to prepare a graphite replacement shaft for insertion into a hosel is to use a graphite shaft puller to remove the old shaft and ensure the new shaft is properly trimmed and prepped.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">When is long-cure epoxy considered cured enough for ball striking?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Long-cure epoxy is considered cured enough for ball striking after it has set for the recommended curing time, typically 24 hours, to ensure maximum strength and adhesion.
+            
+            <div class="question-container">
+                <div class="question">When is long-cure epoxy considered cured enough for ball striking?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Long-cure epoxy is considered cured enough for ball striking after it has set for the recommended curing time, typically 24 hours, to ensure maximum strength and adhesion.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will cutting one inch from the finished length of the club do to the swing weight?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Cutting one inch from the finished length of the club will decrease the swing weight by approximately 3 points, making the club feel lighter.
+            
+            <div class="question-container">
+                <div class="question">What will cutting one inch from the finished length of the club do to the swing weight?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Cutting one inch from the finished length of the club will decrease the swing weight by approximately 3 points, making the club feel lighter.
+                </div>
             </div>
         </div>
     </div>
     
     <div id="golf-playing" class="section">
-        <h2 class="section-title">Playing Conditions and Shot Techniques</h2>
-        
-        <div class="question-container">
-            <div class="question">Where should a player play the ball when approaching a shot from an uphill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When approaching a shot from an uphill lie, the player should play the ball slightly forward in their stance to help achieve the correct launch angle.
+        <h2 class="section-title collapsible-header">Playing Conditions and Shot Techniques <span class="section-toggle">+</span></h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">Where should a player play the ball when approaching a shot from an uphill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When approaching a shot from an uphill lie, the player should play the ball slightly forward in their stance to help achieve the correct launch angle.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the likely effect on impact when the ball lies above the feet?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When the ball lies above the feet, the likely effect on impact is a tendency for the ball to start left of the target for right-handed players.
+            
+            <div class="question-container">
+                <div class="question">What is the likely effect on impact when the ball lies above the feet?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When the ball lies above the feet, the likely effect on impact is a tendency for the ball to start left of the target for right-handed players.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a common occurrence with a shot on an uphill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A common occurrence with a shot on an uphill lie is a higher ball flight and potentially shorter distance.
+            
+            <div class="question-container">
+                <div class="question">What is a common occurrence with a shot on an uphill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A common occurrence with a shot on an uphill lie is a higher ball flight and potentially shorter distance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a common occurrence with a shot on a downhill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A common occurrence with a shot on a downhill lie is a lower ball flight and potentially longer roll.
+            
+            <div class="question-container">
+                <div class="question">What is a common occurrence with a shot on a downhill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A common occurrence with a shot on a downhill lie is a lower ball flight and potentially longer roll.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Where should the ball be positioned when playing from a downhill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When playing from a downhill lie, the ball should be positioned slightly back in the stance to help achieve solid contact.
+            
+            <div class="question-container">
+                <div class="question">Where should the ball be positioned when playing from a downhill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When playing from a downhill lie, the ball should be positioned slightly back in the stance to help achieve solid contact.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How can an expert golfer curve a ball around an obstacle?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An expert golfer can curve a ball around an obstacle by adjusting their swing path and clubface angle to produce a draw or fade.
+            
+            <div class="question-container">
+                <div class="question">How can an expert golfer curve a ball around an obstacle?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An expert golfer can curve a ball around an obstacle by adjusting their swing path and clubface angle to produce a draw or fade.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the effect of intentionally curving the ball against the direction of a sidewind?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Intentionally curving the ball against the direction of a sidewind can help counteract the wind's effect and keep the ball on the intended line.
+            
+            <div class="question-container">
+                <div class="question">What is the effect of intentionally curving the ball against the direction of a sidewind?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Intentionally curving the ball against the direction of a sidewind can help counteract the wind's effect and keep the ball on the intended line.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What might be anticipated as a consequence of hitting a ball from an uphill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Hitting a ball from an uphill lie may result in a higher trajectory and shorter carry distance.
+            
+            <div class="question-container">
+                <div class="question">What might be anticipated as a consequence of hitting a ball from an uphill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Hitting a ball from an uphill lie may result in a higher trajectory and shorter carry distance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">For which lie are players well advised to keep the suspension point constant?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Players are well advised to keep the suspension point constant when playing from a sidehill lie to maintain balance and control.
+            
+            <div class="question-container">
+                <div class="question">For which lie are players well advised to keep the suspension point constant?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Players are well advised to keep the suspension point constant when playing from a sidehill lie to maintain balance and control.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is a major problem for the average golfer when playing a shot from a sidehill lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A major problem for the average golfer when playing a shot from a sidehill lie is maintaining balance and achieving solid contact.
+            
+            <div class="question-container">
+                <div class="question">What is a major problem for the average golfer when playing a shot from a sidehill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A major problem for the average golfer when playing a shot from a sidehill lie is maintaining balance and achieving solid contact.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What ball-flight tendency can be expected from a shot taken with the ball above the feet?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A ball-flight tendency from a shot taken with the ball above the feet is a draw or hook for right-handed players.
+            
+            <div class="question-container">
+                <div class="question">What ball-flight tendency can be expected from a shot taken with the ball above the feet?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A ball-flight tendency from a shot taken with the ball above the feet is a draw or hook for right-handed players.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">As a rule, where should the player tee the ball on the tee in sidewind conditions?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                As a rule, the player should tee the ball on the side of the tee box that allows them to play away from trouble in sidewind conditions.
+            
+            <div class="question-container">
+                <div class="question">As a rule, where should the player tee the ball on the tee in sidewind conditions?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    As a rule, the player should tee the ball on the side of the tee box that allows them to play away from trouble in sidewind conditions.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of sole should a sand wedge have to hit an effective shot from a hardpan lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A sand wedge with a narrow sole and less bounce is effective for hitting shots from a hardpan lie.
+            
+            <div class="question-container">
+                <div class="question">What type of sole should a sand wedge have to hit an effective shot from a hardpan lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A sand wedge with a narrow sole and less bounce is effective for hitting shots from a hardpan lie.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How might a player minimize the amount of grass trapped between the clubface and the ball when hitting from the rough?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                To minimize the amount of grass trapped between the clubface and the ball when hitting from the rough, a player can use a steeper angle of attack.
+            
+            <div class="question-container">
+                <div class="question">How might a player minimize the amount of grass trapped between the clubface and the ball when hitting from the rough?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To minimize the amount of grass trapped between the clubface and the ball when hitting from the rough, a player can use a steeper angle of attack.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Why should a student choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A student should choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions for better launch and forgiveness.
+            
+            <div class="question-container">
+                <div class="question">Why should a student choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A student should choose a hybrid instead of a long iron when playing from the fairway in cold and wet conditions for better launch and forgiveness.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What adjustments should a player make when hitting a shot from a flier lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When hitting a shot from a flier lie, a player should expect the ball to travel farther than usual due to reduced spin.
+            
+            <div class="question-container">
+                <div class="question">What adjustments should a player make when hitting a shot from a flier lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When hitting a shot from a flier lie, a player should expect the ball to travel farther than usual due to reduced spin.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What wind condition magnifies errors in ball flight?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Wind conditions that magnify errors in ball flight include strong crosswinds and gusty conditions.
+            
+            <div class="question-container">
+                <div class="question">What wind condition magnifies errors in ball flight?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Wind conditions that magnify errors in ball flight include strong crosswinds and gusty conditions.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Which playing condition would hide a student's ball flight errors?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Playing conditions that hide a student's ball flight errors include calm weather and soft fairways.
+            
+            <div class="question-container">
+                <div class="question">Which playing condition would hide a student's ball flight errors?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Playing conditions that hide a student's ball flight errors include calm weather and soft fairways.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">A student is considering whether to hit a long iron or hybrid from the fairway in cold, wet conditions. What should the student choose?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                In cold, wet conditions, a student should choose a hybrid over a long iron for better performance and ease of use.
+            
+            <div class="question-container">
+                <div class="question">A student is considering whether to hit a long iron or hybrid from the fairway in cold, wet conditions. What should the student choose?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    In cold, wet conditions, a student should choose a hybrid over a long iron for better performance and ease of use.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What should be expected from a flier lie?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                From a flier lie, the ball is expected to travel farther than normal due to reduced spin and increased launch.
+            
+            <div class="question-container">
+                <div class="question">What should be expected from a flier lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    From a flier lie, the ball is expected to travel farther than normal due to reduced spin and increased launch.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will adding four grams to the club head do?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Adding four grams to the club head will increase the swing weight by approximately 1 point, making the head feel heavier during the swing.
+            
+            <div class="question-container">
+                <div class="question">What will adding four grams to the club head do?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Adding four grams to the club head will increase the swing weight by approximately 1 point, making the head feel heavier during the swing.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the upper limit for adding length to a graphite shafted club when using a shaft extender?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The upper limit for adding length to a graphite shafted club using a shaft extender is typically around 2 inches, as extending beyond this can compromise the shaft's integrity and performance.
+            
+            <div class="question-container">
+                <div class="question">What is the upper limit for adding length to a graphite shafted club when using a shaft extender?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The upper limit for adding length to a graphite shafted club using a shaft extender is typically around 2 inches, as extending beyond this can compromise the shaft's integrity and performance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is most affected when the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                When the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft, the swing weight and overall feel of the club are most affected.
+            
+            <div class="question-container">
+                <div class="question">What is most affected when the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When the total weight of an iron is altered by replacing a 60-gram graphite shaft with a 110-gram steel shaft, the swing weight and overall feel of the club are most affected.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How is the playing loft of a driver club calculated?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The playing loft of a driver club is calculated by measuring the angle between the clubface and the vertical plane when the club is in its normal address position.
+            
+            <div class="question-container">
+                <div class="question">How is the playing loft of a driver club calculated?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The playing loft of a driver club is calculated by measuring the angle between the clubface and the vertical plane when the club is in its normal address position.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What angle has the most effect on ball flight distance?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The loft angle has the most effect on ball flight distance, as it influences the launch angle and spin rate of the ball.
+            
+            <div class="question-container">
+                <div class="question">What angle has the most effect on ball flight distance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The loft angle has the most effect on ball flight distance, as it influences the launch angle and spin rate of the ball.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What condition indicates a faulty clubhead angle?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A faulty clubhead angle is indicated by inconsistent ball flight patterns, such as frequent hooks or slices, which suggest the lie angle may not be properly fitted.
+            
+            <div class="question-container">
+                <div class="question">What condition indicates a faulty clubhead angle?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A faulty clubhead angle is indicated by inconsistent ball flight patterns, such as frequent hooks or slices, which suggest the lie angle may not be properly fitted.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the first thing to consider when preparing to bend the lie angle of an iron?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The first thing to consider when preparing to bend the lie angle of an iron is the material of the clubhead, as some materials are more malleable than others.
+            
+            <div class="question-container">
+                <div class="question">What is the first thing to consider when preparing to bend the lie angle of an iron?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The first thing to consider when preparing to bend the lie angle of an iron is the material of the clubhead, as some materials are more malleable than others.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the purpose of club fitting?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The purpose of club fitting is to optimize the performance and comfort of the golf clubs for the individual player, enhancing their ability to play effectively.
+            
+            <div class="question-container">
+                <div class="question">What is the purpose of club fitting?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The purpose of club fitting is to optimize the performance and comfort of the golf clubs for the individual player, enhancing their ability to play effectively.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the best way to compensate for a poor lie angle?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The best way to compensate for a poor lie angle is to adjust the lie angle of the club to better match the player's swing and impact position.
+            
+            <div class="question-container">
+                <div class="question">What is the best way to compensate for a poor lie angle?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The best way to compensate for a poor lie angle is to adjust the lie angle of the club to better match the player's swing and impact position.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will exaggerate the effects on a ball flight caused by an improper lie angle?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                An improper lie angle will exaggerate the effects on ball flight, causing the ball to start off-line and potentially curve more than desired.
+            
+            <div class="question-container">
+                <div class="question">What will exaggerate the effects on a ball flight caused by an improper lie angle?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An improper lie angle will exaggerate the effects on ball flight, causing the ball to start off-line and potentially curve more than desired.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">How does too little driver loft affect a golf swing?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Too little driver loft can cause a player to struggle with achieving the optimal launch angle, resulting in lower ball flight and reduced carry distance.
+            
+            <div class="question-container">
+                <div class="question">How does too little driver loft affect a golf swing?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Too little driver loft can cause a player to struggle with achieving the optimal launch angle, resulting in lower ball flight and reduced carry distance.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What type of wedges will the club fitting specialist fit for their less skilled players?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Club fitting specialists may fit less skilled players with wedges that have more bounce and a wider sole to help with forgiveness and ease of use.
+            
+            <div class="question-container">
+                <div class="question">What type of wedges will the club fitting specialist fit for their less skilled players?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Club fitting specialists may fit less skilled players with wedges that have more bounce and a wider sole to help with forgiveness and ease of use.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Fitting drivers requires matching the club specifications to the player to achieve what results?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Fitting drivers requires matching the club specifications to the player to achieve optimal launch conditions, maximizing distance and accuracy.
+            
+            <div class="question-container">
+                <div class="question">Fitting drivers requires matching the club specifications to the player to achieve what results?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Fitting drivers requires matching the club specifications to the player to achieve optimal launch conditions, maximizing distance and accuracy.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is the anticipated result of an effective golf club fitting?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The anticipated result of an effective golf club fitting is improved performance, consistency, and confidence for the player.
+            
+            <div class="question-container">
+                <div class="question">What is the anticipated result of an effective golf club fitting?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The anticipated result of an effective golf club fitting is improved performance, consistency, and confidence for the player.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What will improve the putter's performance for most less-skilled players?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                Improving the putter's performance for most less-skilled players can be achieved by ensuring the putter is properly fitted for length, lie, and loft.
+            
+            <div class="question-container">
+                <div class="question">What will improve the putter's performance for most less-skilled players?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Improving the putter's performance for most less-skilled players can be achieved by ensuring the putter is properly fitted for length, lie, and loft.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What is often a trade-off during the club fitting process?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                A trade-off during the club fitting process often involves balancing distance and control, as changes to one can affect the other.
+            
+            <div class="question-container">
+                <div class="question">What is often a trade-off during the club fitting process?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A trade-off during the club fitting process often involves balancing distance and control, as changes to one can affect the other.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">What are the effects on swing motion and feedback resulting from an effective club fitting?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The effects on swing motion and feedback resulting from an effective club fitting include improved consistency, better feel, and enhanced confidence in the player's equipment.
+            
+            <div class="question-container">
+                <div class="question">What are the effects on swing motion and feedback resulting from an effective club fitting?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The effects on swing motion and feedback resulting from an effective club fitting include improved consistency, better feel, and enhanced confidence in the player's equipment.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">During a joint problem-solving meeting, what would be expected to happen after addressing performance concerns and reviewing previous agreements?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                After addressing performance concerns and reviewing previous agreements during a reinforced problem-solving meeting, the next step would be to work with the performer to specify a course of action to solve the problem.
+            
+            <div class="question-container">
+                <div class="question">During a joint problem-solving meeting, what would be expected to happen after addressing performance concerns and reviewing previous agreements?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    After addressing performance concerns and reviewing previous agreements during a reinforced problem-solving meeting, the next step would be to work with the performer to specify a course of action to solve the problem.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">During a joint problem-solving discussion, what must a manager and employee mutually agree upon?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                During a joint problem-solving discussion, a manager and employee must mutually agree upon the specific actions to be taken to resolve the performance problem and the process for follow-up.
+            
+            <div class="question-container">
+                <div class="question">During a joint problem-solving discussion, what must a manager and employee mutually agree upon?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    During a joint problem-solving discussion, a manager and employee must mutually agree upon the specific actions to be taken to resolve the performance problem and the process for follow-up.
+                </div>
             </div>
-        </div>
-        
-        <div class="question-container">
-            <div class="question">Which stage of the Four-Stage Problem Solving Sequence gives the performer the opportunity to take ownership of the solution to the problem?</div>
-            <div class="answer">
-                <span class="answer-label">ANSWER:</span>
-                The stage of the Four-Stage Problem Solving Sequence that gives the performer the opportunity to take ownership of the solution is the "Joint Problem Solving" stage.
+            
+            <div class="question-container">
+                <div class="question">Which stage of the Four-Stage Problem Solving Sequence gives the performer the opportunity to take ownership of the solution to the problem?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The stage of the Four-Stage Problem Solving Sequence that gives the performer the opportunity to take ownership of the solution is the "Joint Problem Solving" stage.
+                </div>
             </div>
         </div>
     </div>
@@ -2600,6 +2570,106 @@
             }
             
             applyStaggeredAnimation();
+            
+            // Make sections collapsible
+            const sectionHeaders = document.querySelectorAll('.section-title.collapsible-header');
+            
+            // Initialize sections (expanded by default)
+            sectionHeaders.forEach(header => {
+                const sectionContent = header.nextElementSibling;
+                if (sectionContent && sectionContent.classList.contains('section-content')) {
+                    // Start with all sections expanded
+                    header.classList.add('active');
+                    sectionContent.style.maxHeight = sectionContent.scrollHeight + 'px';
+                }
+                
+                // Add click event to toggle sections
+                header.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    
+                    if (content && content.classList.contains('section-content')) {
+                        if (this.classList.contains('active')) {
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                            content.classList.remove('collapsed');
+                        } else {
+                            content.style.maxHeight = '0';
+                            content.classList.add('collapsed');
+                        }
+                    }
+                });
+            });
+            
+            // Add a button to toggle all sections
+            const mobileSectionToggleBtn = document.createElement('button');
+            mobileSectionToggleBtn.className = 'btn';
+            mobileSectionToggleBtn.id = 'toggle-all-sections';
+            mobileSectionToggleBtn.textContent = 'Collapse All Sections';
+            mobileSectionToggleBtn.style.marginLeft = '10px';
+            
+            // Add the button to mobile controls
+            const mobileControls = document.getElementById('mobile-controls');
+            if (mobileControls) {
+                mobileControls.appendChild(mobileSectionToggleBtn);
+            }
+            
+            // Track section visibility state
+            let allSectionsVisible = true;
+            
+            // Toggle all sections function
+            function toggleAllSections() {
+                allSectionsVisible = !allSectionsVisible;
+                
+                sectionHeaders.forEach(header => {
+                    const content = header.nextElementSibling;
+                    
+                    if (content && content.classList.contains('section-content')) {
+                        if (allSectionsVisible) {
+                            header.classList.add('active');
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                            content.classList.remove('collapsed');
+                        } else {
+                            header.classList.remove('active');
+                            content.style.maxHeight = '0';
+                            content.classList.add('collapsed');
+                        }
+                    }
+                });
+                
+                mobileSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
+            }
+            
+            // Add click event to the toggle all sections button
+            mobileSectionToggleBtn.addEventListener('click', toggleAllSections);
+            
+            // Add click event to the toggle all sections button (desktop version)
+            const desktopSectionToggleBtn = document.getElementById('toggle-all-sections');
+            if (desktopSectionToggleBtn) {
+                desktopSectionToggleBtn.addEventListener('click', toggleAllSections);
+            }
+            
+            // Add click event to the toggle all sections button (sidebar version)
+            const sidebarSectionToggleBtn = document.getElementById('sidebar-toggle-all-sections');
+            if (sidebarSectionToggleBtn) {
+                sidebarSectionToggleBtn.addEventListener('click', toggleAllSections);
+            }
+            
+            // Update both section toggle buttons when one is clicked
+            mobileSectionToggleBtn.addEventListener('click', () => {
+                if (desktopSectionToggleBtn) {
+                    desktopSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
+                }
+                if (sidebarSectionToggleBtn) {
+                    sidebarSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
+                }
+            });
+            
+            desktopSectionToggleBtn.addEventListener('click', () => {
+                mobileSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
+                if (sidebarSectionToggleBtn) {
+                    sidebarSectionToggleBtn.textContent = allSectionsVisible ? 'Collapse All Sections' : 'Expand All Sections';
+                }
+            });
         });
     </script>
 </body>
