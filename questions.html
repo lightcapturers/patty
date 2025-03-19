@@ -35,6 +35,7 @@
             --text-light: #e2e8f0;
             --bg-color: #1a202c;
             --card-bg: #2d3748;
+            --hover-bg: #3a4a61; /* Add a hover background color for dark mode */
         }
         
         * {
@@ -90,6 +91,41 @@
         .question-container:hover {
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
+        }
+        
+        /* Make question container look clickable */
+        .question-container.clickable {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .question-container.clickable:hover {
+            background-color: var(--light-gray);
+        }
+        
+        /* Animation for clicking the container */
+        .question-container.clickable:active {
+            transform: scale(0.99);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        @keyframes pulseClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.99); }
+            100% { transform: scale(1); }
+        }
+        
+        .question-container.clicked {
+            animation: pulseClick 0.3s ease;
+        }
+        
+        [data-theme="dark"] .question-container.clickable:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        /* Remove individual cursor from question since container is now clickable */
+        .question-container.clickable .question {
+            cursor: inherit;
         }
         
         .question {
@@ -2205,6 +2241,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle question answers
             const questions = document.querySelectorAll('.question');
+            const questionContainers = document.querySelectorAll('.question-container');
             const toggleAllBtn = document.getElementById('toggle-all-answers');
             const sidebarToggleAllBtn = document.getElementById('sidebar-toggle-all-answers');
             const backToTopBtn = document.getElementById('back-to-top');
@@ -2214,8 +2251,53 @@
             
             let allVisible = true;
             
+            // Make question containers clickable
+            questionContainers.forEach(container => {
+                // Add a hover class to the container to indicate it's clickable
+                container.classList.add('clickable');
+                
+                container.addEventListener('click', function(e) {
+                    // Don't toggle if clicking on the answer itself
+                    if (e.target.closest('.answer')) {
+                        return;
+                    }
+                    
+                    // Add clicked animation class
+                    this.classList.add('clicked');
+                    
+                    // Remove the class after animation completes
+                    setTimeout(() => {
+                        this.classList.remove('clicked');
+                    }, 300);
+                    
+                    const question = this.querySelector('.question');
+                    const answer = this.querySelector('.answer');
+                    
+                    // Toggle active class on the question
+                    question.classList.toggle('active');
+                    
+                    if (answer.style.maxHeight) {
+                        answer.style.maxHeight = null;
+                        answer.style.opacity = '0';
+                        setTimeout(() => {
+                            answer.style.display = 'none';
+                        }, 300);
+                    } else {
+                        answer.style.display = 'block';
+                        setTimeout(() => {
+                            answer.style.maxHeight = answer.scrollHeight + 'px';
+                            answer.style.opacity = '1';
+                        }, 10);
+                    }
+                });
+            });
+            
+            // Keeping the original question click handler for backward compatibility
             questions.forEach(question => {
-                question.addEventListener('click', function() {
+                question.addEventListener('click', function(e) {
+                    // Prevent click event from bubbling to container
+                    e.stopPropagation();
+                    
                     this.classList.toggle('active');
                     const answer = this.nextElementSibling;
                     
@@ -2238,8 +2320,9 @@
             function toggleAllAnswers() {
                 allVisible = !allVisible;
                 
-                questions.forEach(question => {
-                    const answer = question.nextElementSibling;
+                questionContainers.forEach(container => {
+                    const question = container.querySelector('.question');
+                    const answer = container.querySelector('.answer');
                     
                     if (allVisible) {
                         question.classList.add('active');
@@ -2260,6 +2343,12 @@
                 
                 toggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
                 sidebarToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
+                
+                // Update mobile toggle button text if it exists
+                const mobileToggleAllBtn = document.getElementById('mobile-toggle-all-answers');
+                if (mobileToggleAllBtn) {
+                    mobileToggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
+                }
             }
             
             toggleAllBtn.addEventListener('click', toggleAllAnswers);
