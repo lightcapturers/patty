@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOPS Practice Questions</title>
+    <style>
+        :root {
+            --primary-color: #3a7bd5;
+            --primary-light: #6fa1e0;
+            --primary-dark: #2c5282;
+            --accent-color: #00d084;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #343a40;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #4a8eff;
+            --primary-light: #6fa1e0;
+            --primary-dark: #3a7bd5;
+            --accent-color: #10e09b;
+            --light-gray: #2d3748;
+            --medium-gray: #4a5568;
+            --dark-gray: #1a202c;
+            --text-dark: #f7fafc;
+            --text-light: #e2e8f0;
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --hover-bg: #3a4a61; /* Add a hover background color for dark mode */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin-left: 280px; /* Space for the sidebar */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary-dark);
+            margin: 2rem 0 1.5rem;
+            font-weight: 700;
+            font-size: 2rem;
+            padding-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+        
+        .question-container {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .question-container:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        /* Make question container look clickable */
+        .question-container.clickable {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .question-container.clickable:hover {
+            background-color: var(--light-gray);
+        }
+        
+        /* Animation for clicking the container */
+        .question-container.clickable:active {
+            transform: none; /* Removed scale effect that caused jiggle */
+            box-shadow: var(--shadow-sm);
+        }
+        
+        @keyframes pulseClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.99); }
+            100% { transform: scale(1); }
+        }
+        
+        .question-container.clicked {
+            animation: none; /* Removed animation that caused jiggle */
+        }
+        
+        [data-theme="dark"] .question-container.clickable:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        /* Remove individual cursor from question since container is now clickable */
+        .question-container.clickable .question {
+            cursor: inherit;
+        }
+        
+        .question {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            position: relative;
+            cursor: pointer;
+            padding-right: 40px; /* Increased from 25px to prevent overlap with progress marker */
+            transition: var(--transition);
+        }
+        
+        .question::after {
+            content: "+";
+            position: absolute;
+            right: 12px; /* Adjusted from 0 to prevent overlap with progress marker */
+            top: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: var(--transition);
+        }
+        
+        .question.active::after {
+            content: "-";
+            color: var(--accent-color);
+        }
+        
+        .answer {
+            background-color: var(--light-gray);
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--accent-color);
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .answer-label {
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .section {
+            margin: 1.5rem 1.5rem 2rem;
+            padding-top: 1rem;
+            scroll-margin-top: 20px;
+            position: relative; /* For collapse button positioning */
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Section collapse button */
+        .section-collapse-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .section-collapse-btn:hover {
+            color: var(--primary-dark);
+        }
+        
+        .section.collapsed .section-content {
+            display: none;
+        }
+        
+        #table-of-contents {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: none; /* Hide the original TOC */
+        }
+        
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            background-color: var(--bg-color);
+            overflow-y: auto;
+            padding: 20px 15px;
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            border-right: 1px solid var(--medium-gray);
+        }
+        
+        #sidebar h2 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        
+        #sidebar h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        
+        #sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        #sidebar li {
+            margin-bottom: 6px;
+        }
+        
+        #sidebar a {
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: block;
+            font-size: 0.9em;
+        }
+        
+        #sidebar a:hover {
+            color: var(--primary-color);
+            background-color: #f5f8ff;
+        }
+        
+        #sidebar .current {
+            color: var(--primary-color);
+            background-color: #f5f8ff;
+            font-weight: 600;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 1.5rem 1.5rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--text-light);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--dark-gray);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .sidebar-controls {
+            margin-top: 1.5rem;
+        }
+        
+        #sidebar-toggle-all-answers,
+        #sidebar-back-to-top {
+            width: 100%;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+        }
+        
+        /* Search box styles */
+        .search-container {
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            z-index: 5;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--medium-gray);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        #search-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
+        }
+        
+        #search-results {
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        #search-results.active {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: 8px 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-result-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .search-result-section {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        .search-result-text {
+            font-size: 0.85rem;
+        }
+        
+        /* Progress tracking */
+        .question-container {
+            position: relative;
+        }
+        
+        .progress-marker {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .progress-marker.completed {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .section-progress {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-left: 10px;
+        }
+        
+        .progress-bar {
+            width: 50px;
+            height: 4px;
+            background-color: var(--medium-gray);
+            border-radius: 2px;
+            margin-right: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Floating action menu */
+        .floating-menu {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .floating-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .floating-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Quick navigation dots */
+        .quick-nav {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 800;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .nav-dot:hover, .nav-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            right: 20px;
+            background-color: var(--bg-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+        
+        .nav-dot:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+                padding: 0;
+                background-color: var(--bg-color);
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin: 1.5rem 10px 1rem;
+                padding-top: 50px; /* Space for the fixed menu button */
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+            
+            #sidebar {
+                width: 85%;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: var(--transition);
+                z-index: 1010;
+            }
+            
+            #sidebar.active {
+                transform: translateX(0);
+            }
+            
+            /* Mobile layout adjustments */
+            .controls {
+                display: none; /* Hide desktop controls on mobile */
+            }
+            
+            /* Make body fixed when sidebar is open to prevent scrolling */
+            body.sidebar-open {
+                overflow: hidden;
+            }
+            
+            /* Add overlay when sidebar is open */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 1005;
+                transition: opacity 0.3s ease;
+                opacity: 0;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+            
+            /* Improved transitions for mobile */
+            .question-container {
+                animation: fadeIn 0.5s ease;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            /* Mobile-specific spacing adjustments */
+            .section {
+                margin: 1rem 0.75rem 3rem;
+                padding-bottom: 1.5rem;
+            }
+            
+            .question-container {
+                padding: 14px;
+                margin-bottom: 12px;
+            }
+            
+            /* Show mobile controls only on mobile */
+            .mobile-controls {
+                display: flex;
+                z-index: 900;
+            }
+            
+            /* Hide mobile controls when sidebar is open */
+            body.sidebar-open .mobile-controls {
+                display: none;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+                position: fixed;
+                left: 10px;
+                top: 10px;
+                z-index: 1020;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                box-shadow: var(--shadow-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+            }
+            
+            /* Indicator for active section in sidebar */
+            #sidebar a.current {
+                border-left: 3px solid var(--primary-color);
+                background-color: rgba(74, 142, 255, 0.1);
+            }
+            
+            /* Improve touch targets on mobile */
+            #sidebar a {
+                padding: 12px 15px;
+                margin-bottom: 8px;
+            }
+            
+            /* Mobile floating menu adjustments */
+            .floating-menu {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-menu .floating-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            /* Hide quick nav on mobile */
+            .quick-nav {
+                display: none;
+            }
+            
+            /* Add back to top floating button */
+            #back-to-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: auto;
+                padding: 8px 12px;
+                z-index: 900;
+                border-radius: 30px;
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+            }
+            
+            #back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-button:hover {
+                background: var(--primary-dark);
+            }
+            
+            .hamburger-icon {
+                position: relative;
+                width: 22px;
+                height: 16px;
+            }
+            
+            .hamburger-icon span {
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background: white;
+                border-radius: 2px;
+                left: 0;
+                transition: var(--transition);
+            }
+            
+            .hamburger-icon span:nth-child(1) {
+                top: 0;
+            }
+            
+            .hamburger-icon span:nth-child(2) {
+                top: 7px;
+            }
+            
+            .hamburger-icon span:nth-child(3) {
+                bottom: 0;
+            }
+            
+            #sidebar.active + .mobile-menu-button .hamburger-icon span:nth-child(1) {
+                transform: rotate(45deg);
+                top: 7px;
+            }
+            
+            #sidebar.active + .mobile-menu-button .hamburger-icon span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            #sidebar.active + .mobile-menu-button .hamburger-icon span:nth-child(3) {
+                transform: rotate(-45deg);
+                bottom: 7px;
+            }
+            
+            /* Theme toggle button */
+            .theme-toggle {
+                position: fixed;
+                right: 10px;
+                top: 10px;
+                z-index: 1020;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow-md);
+                transition: var(--transition);
+            }
+            
+            .theme-toggle:hover {
+                background: var(--primary-dark);
+            }
+            
+            /* Improved dark mode button contrast */
+            [data-theme="dark"] .theme-toggle {
+                background: #ffb700; /* High contrast yellow/gold for dark mode */
+                color: #000; /* Black icon for contrast */
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Light glow effect */
+            }
+            
+            [data-theme="dark"] .theme-toggle:hover {
+                background: #ffc730; /* Lighter on hover */
+            }
+            
+            .theme-toggle svg {
+                stroke-width: 2.5px; /* Make the icon lines thicker for better visibility */
+            }
+            
+            .theme-toggle i {
+                font-size: 1.2rem;
+            }
+            
+            /* Move static bottom controls to floating buttons */
+            .mobile-controls {
+                position: fixed;
+                bottom: 20px;
+                left: 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                padding: 0 20px;
+                z-index: 900;
+            }
+            
+            .mobile-controls .btn {
+                width: auto;
+                flex: 1;
+                border-radius: 30px;
+                padding: 8px 12px;
+                box-shadow: var(--shadow-md);
+                font-size: 0.85rem;
+            }
+            
+            /* Search box adjustments for mobile */
+            .search-container {
+                padding: 10px;
+            }
+            
+            #search-input {
+                padding: 12px 15px;
+                font-size: 16px; /* Prevent zoom on mobile */
+            }
+            
+            /* Progress tracking on mobile */
+            .progress-marker {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile menu button (shown only on mobile) -->
+    <button class="mobile-menu-button" id="mobile-menu-toggle">
+        <span class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+    
+    <!-- Theme toggle button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="theme-icon">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+    
+    <!-- Sidebar with TOC -->
+    <div id="sidebar">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search questions..." aria-label="Search questions">
+            <div id="search-results"></div>
+        </div>
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#performance-system">Performance System</a></li>
+            <li><a href="#resources-operations">Resources and Facility Operations</a></li>
+            <li><a href="#input-management">Input and Performance Management</a></li>
+            <li><a href="#consequences-feedback">Consequences and Performance Feedback</a></li>
+            <li><a href="#team-performance">Team Performance</a></li>
+            <li><a href="#problem-solving">Problem Solving and Feedback</a></li>
+            <li><a href="#leadership">Leadership and Training</a></li>
+            <li><a href="#time-management">Time Management</a></li>
+            <li><a href="#food-beverage">Food and Beverage Operations</a></li>
+            <li><a href="#mental-game">Mental Game and Psychology</a></li>
+            <li><a href="#teaching-coaching">Teaching and Coaching</a></li>
+            <li><a href="#club-fitting">Club Fitting and Equipment</a></li>
+            <li><a href="#golf-playing">Playing Conditions and Shot Techniques</a></li>
+        </ul>
+        <div class="sidebar-controls">
+            <button id="sidebar-toggle-all-answers" class="btn" style="width: 100%; margin-top: 20px;">Hide All Answers</button>
+            <button id="sidebar-back-to-top" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Back to Top</button>
+            <button id="sidebar-collapse-all" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">Collapse All Sections</button>
+        </div>
+    </div>
+
+    <h1>PGA Associate Level 3 GOPS Practice Questions</h1>
+    
+    <div class="controls">
+        <button id="toggle-all-answers" class="btn">Hide All Answers</button>
+        <button id="back-to-top" class="btn btn-secondary">Back to Top</button>
+        <button id="collapse-all-sections" class="btn btn-secondary">Collapse All Sections</button>
+    </div>
+    
+    <!-- Floating action menu for mobile -->
+    <div class="floating-menu">
+        <button class="floating-btn" id="floating-top" aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+    </div>
+    
+    <!-- Quick navigation dots -->
+    <div class="quick-nav"></div>
+    
+    <div id="table-of-contents">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#performance-system">Performance System</a></li>
+            <li><a href="#resources-operations">Resources and Facility Operations</a></li>
+            <li><a href="#input-management">Input and Performance Management</a></li>
+            <li><a href="#consequences-feedback">Consequences and Performance Feedback</a></li>
+            <li><a href="#team-performance">Team Performance</a></li>
+            <li><a href="#problem-solving">Problem Solving and Feedback</a></li>
+            <li><a href="#leadership">Leadership and Training</a></li>
+            <li><a href="#time-management">Time Management</a></li>
+            <li><a href="#food-beverage">Food and Beverage Operations</a></li>
+            <li><a href="#mental-game">Mental Game and Psychology</a></li>
+            <li><a href="#teaching-coaching">Teaching and Coaching</a></li>
+            <li><a href="#club-fitting">Club Fitting and Equipment</a></li>
+            <li><a href="#golf-playing">Playing Conditions and Shot Techniques</a></li>
+        </ul>
+    </div>
+    
+    <div id="performance-system" class="section">
+        <h2 class="section-title">
+            Performance System
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/5</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">How should the complexity of a task be handled if a performer is learning something new?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If a performer is learning something new, the complexity of the task should be handled by starting simply. Provide only the basics at first, and then add complexity after the performer has mastered the basics.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What expectations should a manager's performance standards reflect?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager's performance standards should reflect expectations in terms of quality, timeliness, and initiative on the staff member's part.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What element of the performance system describes the job task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The element of the performance system that describes the job task is the "Task" itself. It is the action the performer is ready to undertake once they have a clear sense of expectations, understand the resources available, and know how to respond to input.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the recommended guideline a manager should use if an employee's actual performance differs from expected performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If an employee's actual performance differs from expected performance, the recommended guideline is to address the gap as quickly as possible before it becomes too large to address easily.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How should resources be allocated to avoid overwhelming a performer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To avoid overwhelming a performer, resources should be allocated by ensuring that the performer is fully aware of all available resources and how to use them. Involve the performer in the process of deciding how to allocate the available resources.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="resources-operations" class="section">
+        <h2 class="section-title">
+            Resources and Facility Operations
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What types of resources are needed to carry out the facility's mission and financial goals?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The types of resources needed to carry out the facility's mission and financial goals include human resources, financial resources, and time-based resources.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">The golf shop merchandise operation is underperforming to revenue projections and inventory management challenges are occurring. What type of resources could best resolve these problems?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To resolve underperformance in revenue projections and inventory management challenges in the golf shop merchandise operation, resources such as inventory management software and sufficient staff for operation could be beneficial.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Which element of the performance system is being utilized when managers communicate the information needed for a performer to complete a task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The element of the performance system being utilized when managers communicate the information needed for a performer to complete a task is "Input."
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="input-management" class="section">
+        <h2 class="section-title">
+            Input and Performance Management
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/4</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">Why would an audible thermometer need to be used to identify the appropriate temperature of food related to input?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An audible thermometer might be used to identify the appropriate temperature of food related to input to ensure that the performer receives a clear and noticeable signal to take the appropriate action.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">A hydraulic leak is discovered when using a triplex mower on the greens. What type of input amplifier can be implemented to minimize the problem?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To minimize the problem of a hydraulic leak discovered when using a triplex mower on the greens, an input amplifier such as regular maintenance checks or visual indicators could be implemented.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is defined as the information, circumstances, or events that signal a performer to take the appropriate action?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The information, circumstances, or events that signal a performer to take the appropriate action are defined as "Input."
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What should a manager do when a performer has difficulty recognizing when to take action on a specific task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a performer has difficulty recognizing when to take action on a specific task, a manager should provide specific direction or amplify the input to ensure it is noticed.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="consequences-feedback" class="section">
+        <h2 class="section-title">
+            Consequences and Performance Feedback
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/6</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What type of consequence happens when a chef experiences gratification after presenting an elegant surf and turf dinner during a ladies' member-guest event?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The type of consequence that happens when a chef experiences gratification after presenting an elegant surf and turf dinner is a positive consequence, as it provides a sense of accomplishment and recognition.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">An employee is repeatedly late for the morning shift. The supervisor reassigns this person to the afternoon shift. What is the problem with this scheduling adjustment?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The problem with reassigning an employee who is repeatedly late for the morning shift to the afternoon shift is that it may not address the underlying issue of punctuality and could be seen as avoiding the problem rather than solving it.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What happens when a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a golf course maintenance worker receives recognition for properly repairing the course after a golf tournament, they receive a positive consequence that reinforces desirable behavior and increases the likelihood they will continue performing well.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Numerous members complain about the conditions and speed of the greens after weekend play. The PGA General Manager meets with the golf course Superintendent at Friday's staff meeting regarding this issue. What is the potential problem with this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The potential problem with meeting the golf course Superintendent at Friday's staff meeting regarding complaints about the greens is that it may not allow for timely feedback and resolution before the weekend play.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What interpersonal skill should a manager use when discussing agreed-upon expectations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When discussing agreed-upon expectations, a manager should use the interpersonal skill of "Active Listening" to ensure understanding and agreement.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is a guideline of giving effective feedback?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A guideline of giving effective feedback is to provide it in a supportive manner and ensure it is clear and easy to interpret.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="team-performance" class="section">
+        <h2 class="section-title">
+            Team Performance
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">A team member who set the hole locations accurately and efficiently is assigned to routinely complete this maintenance task. What is the potential result of this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The potential result of assigning a team member who set the hole locations accurately and efficiently to routinely complete this maintenance task is that it could lead to a lack of variety and potential burnout, reducing motivation over time.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Cheryl, Maggie and Rosa are all assigned to work in the bag room a few days a week. Maggie and Rosa are assigned to weekday shifts and Cheryl works the weekend. Both Maggie and Rosa have cleaned up the messy bag room upon return to work on Mondays. They do not understand why Cheryl is allowed to leave work without cleaning the bag room. What performance element needs to be addressed to resolve this issue?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To resolve the issue of Cheryl not cleaning the bag room, the performance element that needs to be addressed is "Performance Expectations," ensuring that all staff members understand their responsibilities.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How can a manager promote team collaboration and efficiency?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can promote team collaboration and efficiency by setting clear goals, fostering open communication, recognizing team achievements, defining team member roles, and creating a supportive environment where all team members can contribute their ideas.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="problem-solving" class="section">
+        <h2 class="section-title">
+            Problem Solving and Feedback
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/11</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">A member attempts to return a golf shirt and demands a cash refund. The assistant professional insists on following the established policy for exchange. The member complains to the head professional, who then reprimands the assistant. Which element of the performance system is misaligned in this situation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    In the situation where the assistant professional is reprimanded for following the established policy, the element of the performance system that is misaligned is "Consequences," as the assistant is penalized for adhering to policy.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">An employee is struggling to develop relationships with club members. The PGA General Manger should schedule this employee to shadow a top performer during their shifts. What type of feedback is shown in this example?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The type of feedback shown when scheduling an employee to shadow a top performer is "Developmental Feedback," as it provides an opportunity for learning and improvement.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the most effective approach to providing feedback to an employee who is not meeting performance expectations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most effective approach to providing feedback to an employee who is not meeting performance expectations is to address the issue promptly, be specific about the behavior that needs improvement, focus on performance rather than personality, offer guidance for improvement, and follow up regularly to monitor progress.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What happens when a manager makes false assumptions?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When a manager makes false assumptions, it can lead to misdiagnosing the problem, resulting in ineffective solutions and potentially worsening the situation.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">A staff member continues to struggle with customer service levels. The General Manager communicates a solution to the staff member. Which of the six actions for correcting performance problems has been omitted?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If a staff member continues to struggle with customer service levels and the General Manager communicates a solution, the action omitted is "Involving the Performer" in the problem-solving process.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How can a manager increase the chances of finding a quick and mutually satisfying resolution to a performance problem without having to go through the multiple stages of the problem-solving process?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can increase the chances of finding a quick and mutually satisfying resolution to a performance problem by addressing the issue early and involving the performer in finding a solution.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What action increases the chances of finding a solution that satisfies all parties?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The action that increases the chances of finding a solution that satisfies all parties is to work through all issues to find a mutually agreeable solution rather than settling for an unhappy compromise.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How can a manager identify if a performance problem continues to exist after an agreed upon course of action?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager can identify if a performance problem continues to exist after an agreed-upon course of action by establishing a clear follow-up process and monitoring the results to ensure the problem is resolved.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">During a joint problem-solving discussion, what is the manager's role when identifying potential resolutions to a performance problem?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    During a joint problem-solving discussion, the manager's role is to facilitate the discussion, encourage the performer to share ideas, and work collaboratively to identify potential resolutions.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Why is the manager's involvement in the follow-up process during joint problem-solving important?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The manager's involvement in the follow-up process during joint problem-solving is important because it demonstrates commitment to resolving the issue and supports the performer in achieving the desired outcomes.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">During the joint problem-solving process, why is it important that the manager state the concern in relation to the expectations for the job or task?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    It is important for the manager to state the concern in relation to the expectations for the job or task to ensure clarity and focus on the specific performance gap that needs to be addressed.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="leadership" class="section">
+        <h2 class="section-title">
+            Leadership and Training
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the most effective leadership approach when implementing a new performance management system with a team?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most effective leadership approach when implementing a new performance management system with a team is to involve the team in the process, clearly communicate the purpose and benefits, provide adequate training, allow time for adjustment, and gather feedback for continuous improvement.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How should a manager approach training for multi-generational staff members with different learning preferences?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A manager should approach training for multi-generational staff members with different learning preferences by utilizing a variety of training methods, offering flexibility in learning opportunities, recognizing individual strengths, creating mentorship opportunities, and regularly assessing training effectiveness.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the primary purpose of establishing standard operating procedures (SOPs) in a golf facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The primary purpose of establishing standard operating procedures (SOPs) in a golf facility is to ensure consistency in service delivery, maintain quality standards, facilitate employee training, improve efficiency, and support the achievement of overall business objectives.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="time-management" class="section">
+        <h2 class="section-title">
+            Time Management
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/3</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">How can a golf facility manager effectively prioritize multiple competing tasks during peak season?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A golf facility manager can effectively prioritize multiple competing tasks during peak season by identifying tasks that directly impact customer satisfaction and revenue, delegating appropriately, leveraging technology for efficiency, creating structured schedules, and maintaining contingency plans for unexpected situations.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The recommended approach when a staff member consistently fails to complete assigned tasks within the allocated timeframe is to have a private conversation to identify any obstacles or challenges, assess whether the timeframe is realistic, provide additional training if needed, establish clear expectations and consequences, and follow up with regular feedback.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How can technology be effectively utilized to improve time management in daily operations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Technology can be effectively utilized to improve time management in daily operations through automation of routine tasks, implementation of scheduling and tee time management systems, inventory tracking, digital communication tools, and analytics for strategic planning.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="food-beverage" class="section">
+        <h2 class="section-title">
+            Food and Beverage Operations
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/26</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the primary consequential benefit of having a well-run and successful food and beverage operation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The primary consequential benefit of having a well-run and successful food and beverage operation is that it can significantly contribute to the facility's overall revenue and profitability, enhancing customer satisfaction and encouraging repeat business.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">According to the course manual, what can often distinguish a profitable facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    According to the course manual, a profitable facility can often be distinguished by its ability to align its food and beverage operations with its overall operational goals, effectively meeting customer expectations and managing costs.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What department can often provide substantial revenue?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The food and beverage department can often provide substantial revenue for a facility.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What can often distinguish a facility as a complete destination?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A facility can often be distinguished as a complete destination by offering a successful food and beverage operation that complements the quality and vision of the golf operation.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">For which type of private facility is profitability the primary operational goal?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    For private facilities where service is not the primary goal, profitability can be the primary operational goal, such as in facilities owned by management companies.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">At which type of private golf facility is the profitability of the food and beverage operation important?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    At private golf facilities where the food and beverage operation is expected to contribute to the overall financial success, profitability is important.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">For which type of private facility is service the primary operational goal?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    For private equity facilities, service is the primary operational goal, focusing on providing personal attention and high-quality experiences for members.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Which type of golf facility might only offer counter and carryout service to maximize profitability?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Public golf facilities might only offer counter and carryout service to maximize profitability by keeping costs low and providing quick service.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the easiest food and beverage service to offer at a facility?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The easiest food and beverage service to offer at a facility is on-course concessions, as they require minimal equipment and staff.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the least expensive type of food and beverage service that a facility can offer?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The least expensive type of food and beverage service that a facility can offer is on-course concessions, which involve selling pre-made and packaged items.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Describe the type of service offered by on-course concessions.</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    On-course concessions offer quick service with relatively inexpensive pre-made and packaged food items, such as sandwiches, snacks, and beverages, to avoid delays in play.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What must be identified before the facility's level of food and beverage service can be determined?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Before determining the facility's level of food and beverage service, the operational goals and customer expectations must be identified.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">The Food and Beverage Manager uses internal control to keep the operation functioning smoothly with safeguards. What are its characteristics?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The characteristics of internal control used by the Food and Beverage Manager to keep the operation functioning smoothly include establishing procedures, monitoring compliance, and safeguarding assets.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What are the characteristics of internal control that the Food and Beverage Manager uses to keep the operation functioning smoothly?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Internal control characteristics include procedures for inventory management, cost control, and ensuring compliance with health and safety regulations.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the definition of food cost control?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Food cost control is defined as the process of managing and regulating the costs associated with purchasing and using food products to ensure profitability.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What two items are used to determine the standard cost of one portion produced from a standard recipe?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The two items used to determine the standard cost of one portion produced from a standard recipe are the cost of ingredients and the portion size.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the meaning of "food cost control"?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The meaning of "food cost control" is the practice of managing food expenses to maintain profitability while ensuring quality and customer satisfaction.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Where is the food and beverage service most vulnerable to losing profits due to excessive costs?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The food and beverage service is most vulnerable to losing profits due to excessive costs in areas such as inventory management, portion control, and waste management.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the most important guideline governing the selection and price of a facility's menu?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most important guideline governing the selection and price of a facility's menu is ensuring that the menu items meet customer expectations while allowing the facility to cover costs and achieve budgeted profits.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">If the cost of ingredients for a buffet entrée that yields fifty portions is $225.00, and the food cost percentage is 30%, what would be the per-portion selling price of the entrée?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To calculate the per-portion selling price of the buffet entrée, use the formula: Selling Price = (Cost of Ingredients / Number of Portions) / Food Cost Percentage. Therefore, Selling Price = ($225.00 / 50) / 0.30 = $15.00 per portion.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Placing incoming items behind older items is an example of which food storage method?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Placing incoming items behind older items is an example of the First-In, First-Out (FIFO) food storage method.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is an example of gathering market information?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An example of gathering market information is conducting customer surveys to understand preferences and expectations.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What are the operational goals of different types of facilities' food and beverage operations?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The operational goals of different types of facilities' food and beverage operations vary. For example, private equity facilities may focus on high-quality service and breaking even, while public facilities may aim to provide affordable options and make a profit.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How should a facility begin their research to determine the most relevant type and level of food and beverage service they could provide?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A facility should begin their research by analyzing customer demographics, preferences, and market trends to determine the most relevant type and level of food and beverage service.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the predominant reason a public facility is likely to offer inexpensive food and beverage products?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A public facility is likely to offer inexpensive food and beverage products to attract a broad customer base and remain competitive.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What should be the relationship between labor costs and customer expectations in a food and beverage operation?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The relationship between labor costs and customer expectations should be balanced to ensure efficient service delivery while meeting customer satisfaction and maintaining profitability.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="mental-game" class="section">
+        <h2 class="section-title">
+            Mental Game and Psychology
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/36</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is the cognitive rehearsal of a physical activity in the absence of any observable muscular movement?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Cognitive rehearsal of a physical activity without observable movement is known as mental practice.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is a conscious experience in which a player uses all her senses to create or recreate the execution of a motor skill in the player's mind?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A conscious experience using all senses to create or recreate a motor skill is called visualization or imagery.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">A student relates primarily to which type of imagery if she is unable to learn from a face-on video of her swing?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A student relates to kinesthetic imagery if unable to learn from a face-on video.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">A student relates primarily to which type of imagery if she is able to learn from a face-on video of her swing?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A student relates to visual imagery if able to learn from a face-on video.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Does cognitively rehearsing procedural skills at a faster rate before physically performing them interfere with the benefits of mental practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    No, rehearsing procedural skills at a faster rate does not interfere with mental practice benefits.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the definition of modeling when used for teaching and coaching?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Modeling in teaching and coaching involves demonstrating a skill for learners to imitate.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">When is mental practice and motor imagery most effective?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice and motor imagery are most effective when combined with physical practice.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the best way for beginners to improve shot performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Beginners can improve shot performance by focusing on basic fundamentals and consistent practice.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What makes "cognitive hypothesis" an effective learning tool?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The cognitive hypothesis is effective because it involves understanding the underlying principles of a skill.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Which condition enhances the benefits of mental practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice is enhanced by a quiet environment and focused attention.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Based on research, at what speed should a skill be mentally rehearsed prior to actual performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Skills should be mentally rehearsed at a realistic speed for optimal performance.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is an effective means of helping a beginner to use motor imagery to improve performance?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    An effective means is guided imagery sessions with a coach.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What situation justifies substituting mental practice for physical practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Mental practice can substitute physical practice when physical limitations prevent actual practice.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">According to research, what will optimize performance when combining mental and physical practice?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Combining mental and physical practice optimizes performance by reinforcing skills.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the influence of a previous skill on the current skill to be learned regardless of whether the influence is positive or negative?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The influence of a previous skill on a current skill is known as transfer of learning.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Addison has acquired a new student who previously played ice hockey. During the opening interview, Addison asks questions to find out ways he can take advantage of previous learning, what skills to teach, and what order to teach them. This is an example of what learning transfer concept?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    This is an example of positive transfer, utilizing previous skills to enhance new learning.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="teaching-coaching" class="section">
+        <h2 class="section-title">
+            Teaching and Coaching
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/29</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What type of player is best served by individual lessons?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Individual lessons are best served for players who need personalized attention and specific feedback on their unique swing and game.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is a group lesson advantage?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A group lesson advantage is the opportunity for social interaction and learning from observing others.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the recommended practice regarding writing out a complete lesson plan before beginning golf instruction?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The recommended practice is to write out a complete lesson plan before beginning golf instruction to ensure a structured and effective session.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the correct planning assumption behind a skill development sequence for individual lessons?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The correct planning assumption behind a skill development sequence for individual lessons is to tailor the sequence to the player's specific needs and goals.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">How should teachers respond to lessons that are getting off track?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Teachers should respond to lessons that are getting off track by being flexible and adjusting the lesson plan to refocus on the student's needs.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="club-fitting" class="section">
+        <h2 class="section-title">
+            Club Fitting and Equipment
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/16</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">What is an acceptable practice when a shaft has re-useable old buildup tape already on it?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    If the build-up tape is reusable and will produce the correct volume of build-up to achieve the desired grip size, it is acceptable to leave it on and reapply new double-sided grip tape over it.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Does a double-sided tape count as a layer of build-up tape?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    Double-sided tape does not count as a layer of build-up tape. It is a constant in the grip installation process and is part of the overall volume of the grip size.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the standard size of a men's grip?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The standard size of a men's grip is typically around .900" to .915" in diameter, but this can vary based on personal preference and hand size.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What grip material can be used to create an undersized grip?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    To create an undersized grip, rubber and most dual durometer grips can be stretched about 3/4" past their original length. However, this process does not work for cord or polymer grips.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the most common means of removing old build-up tape from the shaft?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    The most common means of removing old build-up tape from the shaft is to peel it off by hand. If the tape is stubborn, mineral spirits, a heat gun, or a grip knife can be used to assist in removal.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="golf-playing" class="section">
+        <h2 class="section-title">
+            Playing Conditions and Shot Techniques
+            <button class="section-collapse-btn" aria-label="Collapse section">−</button>
+            <div class="section-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="progress-text">0/33</span>
+            </div>
+        </h2>
+        <div class="section-content">
+            <div class="question-container">
+                <div class="question">Where should a player play the ball when approaching a shot from an uphill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When approaching a shot from an uphill lie, the player should play the ball slightly forward in their stance to help achieve the correct launch angle.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is the likely effect on impact when the ball lies above the feet?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When the ball lies above the feet, the likely effect on impact is a tendency for the ball to start left of the target for right-handed players.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is a common occurrence with a shot on an uphill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A common occurrence with a shot on an uphill lie is a higher ball flight and potentially shorter distance.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">What is a common occurrence with a shot on a downhill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    A common occurrence with a shot on a downhill lie is a lower ball flight and potentially longer roll.
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">Where should the ball be positioned when playing from a downhill lie?</div>
+                <div class="answer">
+                    <span class="answer-label">ANSWER:</span>
+                    When playing from a downhill lie, the ball should be positioned slightly back in the stance to help achieve solid contact.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #ddd; color: #7f8c8d;">
+        <p>PGA Associate Level 3 GOPS Practice Questions</p>
+        <p>© 2023 - All Rights Reserved</p>
+    </footer>
+
+    <!-- Mobile specific controls -->
+    <div class="mobile-controls" id="mobile-controls">
+        <button id="mobile-toggle-all-answers" class="btn">Hide All Answers</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make questions clickable to show/hide answers
+            const questionContainers = document.querySelectorAll('.question-container');
+            const questions = document.querySelectorAll('.question');
+            
+            // Add progress markers to each question
+            questionContainers.forEach((container) => {
+                const progressMarker = document.createElement('div');
+                progressMarker.className = 'progress-marker';
+                progressMarker.setAttribute('title', 'Mark as completed');
+                container.appendChild(progressMarker);
+                
+                // Make entire container clickable
+                container.classList.add('clickable');
+                container.addEventListener('click', function(e) {
+                    // Don't toggle if clicking on the progress marker
+                    if (e.target.classList.contains('progress-marker')) {
+                        return;
+                    }
+                    
+                    const question = this.querySelector('.question');
+                    const answer = this.querySelector('.answer');
+                    question.classList.toggle('active');
+                    
+                    if (answer.style.display === 'block' || answer.style.display === '') {
+                        answer.style.display = 'none';
+                    } else {
+                        answer.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Handle progress marker clicks
+            const progressMarkers = document.querySelectorAll('.progress-marker');
+            progressMarkers.forEach((marker) => {
+                marker.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent container click
+                    this.classList.toggle('completed');
+                    updateProgressTracking();
+                    
+                    // Store progress in local storage
+                    saveProgress();
+                });
+            });
+            
+            // Toggle all answers button functionality
+            const toggleAllBtn = document.getElementById('toggle-all-answers');
+            const sidebarToggleAllBtn = document.getElementById('sidebar-toggle-all-answers');
+            const mobileToggleAllBtn = document.getElementById('mobile-toggle-all-answers');
+            
+            function toggleAllAnswers() {
+                const answers = document.querySelectorAll('.answer');
+                const answersHidden = [...answers].some(answer => answer.style.display === 'none');
+                
+                if (answersHidden) {
+                    answers.forEach(answer => answer.style.display = 'block');
+                    questions.forEach(question => question.classList.add('active'));
+                    toggleAllBtn.textContent = 'Hide All Answers';
+                    sidebarToggleAllBtn.textContent = 'Hide All Answers';
+                    if (mobileToggleAllBtn) mobileToggleAllBtn.textContent = 'Hide All Answers';
+                } else {
+                    answers.forEach(answer => answer.style.display = 'none');
+                    questions.forEach(question => question.classList.remove('active'));
+                    toggleAllBtn.textContent = 'Show All Answers';
+                    sidebarToggleAllBtn.textContent = 'Show All Answers';
+                    if (mobileToggleAllBtn) mobileToggleAllBtn.textContent = 'Show All Answers';
+                }
+            }
+            
+            toggleAllBtn.addEventListener('click', toggleAllAnswers);
+            sidebarToggleAllBtn.addEventListener('click', toggleAllAnswers);
+            if (mobileToggleAllBtn) mobileToggleAllBtn.addEventListener('click', toggleAllAnswers);
+            
+            // Back to top functionality
+            const backToTopBtn = document.getElementById('back-to-top');
+            const sidebarBackToTopBtn = document.getElementById('sidebar-back-to-top');
+            const floatingTopBtn = document.getElementById('floating-top');
+            
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            
+            backToTopBtn.addEventListener('click', scrollToTop);
+            sidebarBackToTopBtn.addEventListener('click', scrollToTop);
+            floatingTopBtn.addEventListener('click', scrollToTop);
+            
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            // Mobile Menu Toggle
+            const sidebarToggle = document.getElementById('mobile-menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const body = document.body;
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                body.classList.toggle('sidebar-open');
+                
+                // Add overlay when sidebar is open
+                if (!document.querySelector('.sidebar-overlay')) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'sidebar-overlay';
+                    document.body.appendChild(overlay);
+                    
+                    // Add click event to close sidebar when overlay is clicked
+                    overlay.addEventListener('click', function() {
+                        sidebar.classList.remove('active');
+                        body.classList.remove('sidebar-open');
+                        overlay.classList.remove('active');
+                        setTimeout(() => {
+                            overlay.remove();
+                        }, 300);
+                    });
+                    
+                    // Show overlay with animation
+                    setTimeout(() => {
+                        overlay.classList.add('active');
+                    }, 10);
+                } else {
+                    const overlay = document.querySelector('.sidebar-overlay');
+                    if (sidebar.classList.contains('active')) {
+                        overlay.classList.add('active');
+                    } else {
+                        overlay.classList.remove('active');
+                        setTimeout(() => {
+                            overlay.remove();
+                        }, 300);
+                    }
+                }
+                
+                // Animation for hamburger icon
+                const hamburgerSpans = document.querySelectorAll('.hamburger-icon span');
+                
+                if (sidebar.classList.contains('active')) {
+                    hamburgerSpans[0].style.transform = 'rotate(45deg)';
+                    hamburgerSpans[0].style.top = '7px';
+                    hamburgerSpans[1].style.opacity = '0';
+                    hamburgerSpans[2].style.transform = 'rotate(-45deg)';
+                    hamburgerSpans[2].style.bottom = '7px';
+                } else {
+                    hamburgerSpans[0].style.transform = 'none';
+                    hamburgerSpans[0].style.top = '0';
+                    hamburgerSpans[1].style.opacity = '1';
+                    hamburgerSpans[2].style.transform = 'none';
+                    hamburgerSpans[2].style.bottom = '0';
+                }
+            });
+            
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            // Check if user has already set a theme preference
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                
+                if (currentTheme === 'dark') {
+                    // Update icon to moon for dark mode
+                    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+                } else {
+                    // Update icon to sun for light mode
+                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+                }
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                // If data-theme is not set or is light, switch to dark mode
+                if (document.documentElement.getAttribute('data-theme') !== 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    
+                    // Update icon to moon for dark mode
+                    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+                } else {
+                    // Switch back to light mode
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    
+                    // Update icon to sun for light mode
+                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+                }
+            });
+            
+            // Make sidebar links highlight current section on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('#sidebar a');
+            
+            function updateActiveLink() {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop - 200) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('current');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('current');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveLink);
+            
+            // Section collapse functionality
+            const sectionCollapseButtons = document.querySelectorAll('.section-collapse-btn');
+            
+            sectionCollapseButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const section = this.closest('.section');
+                    section.classList.toggle('collapsed');
+                    
+                    if (section.classList.contains('collapsed')) {
+                        this.innerHTML = '+';
+                        this.setAttribute('aria-label', 'Expand section');
+                    } else {
+                        this.innerHTML = '−';
+                        this.setAttribute('aria-label', 'Collapse section');
+                    }
+                });
+            });
+            
+            // Global collapse all sections functionality
+            const collapseAllBtn = document.getElementById('collapse-all-sections');
+            const sidebarCollapseAllBtn = document.getElementById('sidebar-collapse-all');
+            
+            function toggleAllSections() {
+                const sections = document.querySelectorAll('.section');
+                const allCollapsed = [...sections].every(section => section.classList.contains('collapsed'));
+                
+                sections.forEach(section => {
+                    const collapseBtn = section.querySelector('.section-collapse-btn');
+                    
+                    if (allCollapsed) {
+                        section.classList.remove('collapsed');
+                        if (collapseBtn) {
+                            collapseBtn.innerHTML = '−';
+                            collapseBtn.setAttribute('aria-label', 'Collapse section');
+                        }
+                    } else {
+                        section.classList.add('collapsed');
+                        if (collapseBtn) {
+                            collapseBtn.innerHTML = '+';
+                            collapseBtn.setAttribute('aria-label', 'Expand section');
+                        }
+                    }
+                });
+                
+                if (allCollapsed) {
+                    collapseAllBtn.textContent = 'Collapse All Sections';
+                    sidebarCollapseAllBtn.textContent = 'Collapse All Sections';
+                } else {
+                    collapseAllBtn.textContent = 'Expand All Sections';
+                    sidebarCollapseAllBtn.textContent = 'Expand All Sections';
+                }
+            }
+            
+            collapseAllBtn.addEventListener('click', toggleAllSections);
+            sidebarCollapseAllBtn.addEventListener('click', toggleAllSections);
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm.length < 2) {
+                    searchResults.innerHTML = '';
+                    searchResults.classList.remove('active');
+                    return;
+                }
+                
+                const allQuestions = document.querySelectorAll('.question-container .question');
+                let matchingQuestions = [];
+                
+                allQuestions.forEach(question => {
+                    const questionText = question.textContent.toLowerCase();
+                    if (questionText.includes(searchTerm)) {
+                        matchingQuestions.push({
+                            text: question.textContent,
+                            element: question.closest('.question-container'),
+                            section: question.closest('.section').querySelector('.section-title').textContent.trim()
+                        });
+                    }
+                });
+                
+                // Also search in answers
+                const allAnswers = document.querySelectorAll('.question-container .answer');
+                allAnswers.forEach(answer => {
+                    const answerText = answer.textContent.toLowerCase();
+                    if (answerText.includes(searchTerm)) {
+                        const questionContainer = answer.closest('.question-container');
+                        const questionText = questionContainer.querySelector('.question').textContent;
+                        
+                        // Check if we already added this question
+                        const alreadyAdded = matchingQuestions.some(item => 
+                            item.text === questionText
+                        );
+                        
+                        if (!alreadyAdded) {
+                            matchingQuestions.push({
+                                text: questionText,
+                                element: questionContainer,
+                                section: questionContainer.closest('.section').querySelector('.section-title').textContent.trim()
+                            });
+                        }
+                    }
+                });
+                
+                // Display results
+                searchResults.innerHTML = '';
+                
+                if (matchingQuestions.length === 0) {
+                    searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+                    searchResults.classList.add('active');
+                    return;
+                }
+                
+                matchingQuestions.forEach(match => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <span class="search-result-section">${match.section}</span>
+                        <span class="search-result-text">${match.text}</span>
+                    `;
+                    
+                    resultItem.addEventListener('click', function() {
+                        // Scroll to the question
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Highlight the question temporarily
+                        match.element.style.backgroundColor = 'rgba(58, 123, 213, 0.1)';
+                        setTimeout(() => {
+                            match.element.style.backgroundColor = '';
+                        }, 2000);
+                        
+                        // Show the answer
+                        const question = match.element.querySelector('.question');
+                        const answer = match.element.querySelector('.answer');
+                        question.classList.add('active');
+                        answer.style.display = 'block';
+                        
+                        // Clear search results
+                        searchResults.innerHTML = '';
+                        searchResults.classList.remove('active');
+                        searchInput.value = '';
+                        
+                        // Close sidebar on mobile
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('active');
+                            body.classList.remove('sidebar-open');
+                            const overlay = document.querySelector('.sidebar-overlay');
+                            if (overlay) {
+                                overlay.classList.remove('active');
+                                setTimeout(() => {
+                                    overlay.remove();
+                                }, 300);
+                            }
+                        }
+                    });
+                    
+                    searchResults.appendChild(resultItem);
+                });
+                
+                searchResults.classList.add('active');
+            });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Quick navigation dots
+            const quickNav = document.querySelector('.quick-nav');
+            
+            // Create navigation dots for each section
+            sections.forEach((section, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                
+                const tooltip = document.createElement('span');
+                tooltip.className = 'nav-tooltip';
+                tooltip.textContent = section.querySelector('.section-title').textContent.trim();
+                
+                dot.appendChild(tooltip);
+                quickNav.appendChild(dot);
+                
+                dot.addEventListener('click', function() {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Update active dot on scroll
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            function updateActiveDot() {
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop - 200 && window.scrollY < sectionTop + sectionHeight - 200) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index].classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveDot);
+            
+            // Progress tracking functionality
+            function updateProgressTracking() {
+                sections.forEach(section => {
+                    const questionsInSection = section.querySelectorAll('.question-container');
+                    const completedQuestionsInSection = section.querySelectorAll('.progress-marker.completed');
+                    
+                    const progressBar = section.querySelector('.progress-fill');
+                    const progressText = section.querySelector('.progress-text');
+                    
+                    const progressPercentage = (completedQuestionsInSection.length / questionsInSection.length) * 100;
+                    progressBar.style.width = `${progressPercentage}%`;
+                    progressText.textContent = `${completedQuestionsInSection.length}/${questionsInSection.length}`;
+                });
+            }
+            
+            // Save progress to local storage
+            function saveProgress() {
+                const progressData = {};
+                
+                progressMarkers.forEach((marker, index) => {
+                    const questionText = marker.closest('.question-container').querySelector('.question').textContent;
+                    progressData[questionText] = marker.classList.contains('completed');
+                });
+                
+                localStorage.setItem('questionsProgress', JSON.stringify(progressData));
+            }
+            
+            // Load progress from local storage
+            function loadProgress() {
+                const savedProgress = localStorage.getItem('questionsProgress');
+                
+                if (savedProgress) {
+                    const progressData = JSON.parse(savedProgress);
+                    
+                    // Match saved progress to current questions
+                    progressMarkers.forEach(marker => {
+                        const questionText = marker.closest('.question-container').querySelector('.question').textContent;
+                        
+                        if (progressData[questionText]) {
+                            marker.classList.add('completed');
+                        }
+                    });
+                    
+                    updateProgressTracking();
+                }
+            }
+            
+            // Initialize progress tracking
+            loadProgress();
+            updateProgressTracking();
+            
+            // Adjust the staggered animation effect for questions
+            function applyStaggeredAnimation() {
+                if (window.innerWidth <= 768) {
+                    const questionContainers = document.querySelectorAll('.question-container');
+                    questionContainers.forEach((container, index) => {
+                        container.style.animationDelay = `${index * 0.05}s`;
+                    });
+                }
+            }
+            
+            applyStaggeredAnimation();
+            
+            // Add ARIA attributes for better accessibility
+            questions.forEach(question => {
+                question.setAttribute('role', 'button');
+                question.setAttribute('aria-expanded', 'false');
+                
+                question.closest('.question-container').addEventListener('click', function() {
+                    const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                    question.setAttribute('aria-expanded', !isExpanded);
+                });
+            });
+            
+            // Initialize all sections with proper content structure
+            sections.forEach(section => {
+                const sectionQuestions = section.querySelectorAll('.question-container');
+                const sectionContent = document.createElement('div');
+                sectionContent.className = 'section-content';
+                
+                // Move all question containers into the section content div
+                sectionQuestions.forEach(questionContainer => {
+                    sectionContent.appendChild(questionContainer);
+                });
+                
+                section.appendChild(sectionContent);
+            });
+        });
+    </script>
+</body>
+</html> 
